@@ -12,8 +12,31 @@ This tool provides a beautiful web-based UI and a robust CLI to bootstrap your d
 - **Extensible Plugin System:** All installations are handled via a modular plugin architecture.
 - **Dependency Resolution:** Automatically handles plugin dependencies (e.g., installing `winget` before attempting to install a tool via `winget`).
 
-## Usage
+# Installation
 
+### macOS
+
+```sh
+curl -fsSL https://gist.githubusercontent.com/b4m11/f33dcc49b2f9d4d478973da0c00c87ab/raw/065e0476e3f06bd6556001e01cb3f5914ef95657/install.sh -o install.sh
+chmod +x install.sh
+./install.sh  # add any args, e.g., --web
+```
+
+### Linux
+
+```sh
+curl -fsSL https://gist.githubusercontent.com/b4m11/f33dcc49b2f9d4d478973da0c00c87ab/raw/065e0476e3f06bd6556001e01cb3f5914ef95657/install.sh -o install.sh
+chmod +x install.sh
+./install.sh  # add any args, e.g., --web
+```
+
+### Windows
+
+Download the latest binary from the [Releases page](https://github.com/b4m11/ori/releases) and run the appropriate executable.
+
+
+
+## Dev
 You can run the setup tool via the command line:
 
 ```bash
