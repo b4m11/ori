@@ -35,22 +35,22 @@ jobs:
         if [ "${{ runner.os }}" = "Windows" ]; then
           SEP=";"
         fi
-        pyinstaller --name dev_setup --onefile --collect-submodules plugins --add-data "web_ui/index.html${SEP}web_ui" dev_setup.py
+        pyinstaller --name ori --one-file --add-data "web_ui${SEP}web_ui" --add-data "plugins${SEP}plugins" --add-data "core${SEP}core" dev_setup.py
       shell: bash
 
     - name: Rename Artifact for Windows
       if: runner.os == 'Windows'
-      run: mv dist/dev_setup.exe dist/dev_setup-windows.exe
+      run: mv dist/ori.exe dist/ori-windows.exe
       shell: bash
 
     - name: Rename Artifact for Linux
       if: runner.os == 'Linux'
-      run: mv dist/dev_setup dist/dev_setup-linux
+      run: mv dist/ori dist/ori-linux
       shell: bash
 
     - name: Rename Artifact for macOS
       if: runner.os == 'macOS'
-      run: mv dist/dev_setup dist/dev_setup-macos
+      run: mv dist/ori dist/ori-macos
       shell: bash
 
     - name: Upload artifact to Actions
@@ -64,6 +64,6 @@ jobs:
       with:
         tag_name: latest
         name: Latest Build
-        files: dist/dev_setup*
+        files: dist/ori*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
