@@ -35,7 +35,7 @@ jobs:
         if [ "${{ runner.os }}" = "Windows" ]; then
           SEP=";"
         fi
-        pyinstaller --name ori --one-file --add-data "web_ui${SEP}web_ui" --add-data "plugins${SEP}plugins" --add-data "core${SEP}core" dev_setup.py
+        pyinstaller --name ori --onefile --add-data "web_ui${SEP}web_ui" --add-data "plugins${SEP}plugins" --add-data "core${SEP}core" dev_setup.py
       shell: bash
 
     - name: Rename Artifact for Windows
