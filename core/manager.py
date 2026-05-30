@@ -12,7 +12,7 @@ from typing import List, Dict, Any
 
 from .config import load_config, DEFAULT_CONFIG
 from .registry import load_all_plugins
-from .runner import set_dry_run, run_cmd
+from .runner import set_dry_run, run_cmd, stop_event
 import sys
 from pathlib import Path
 
@@ -62,6 +62,10 @@ class SetupManager:
         from pathlib import Path
         self.output_dir = Path(self.config.get("output_dir", "plugin_outputs"))
         self.output_dir.mkdir(parents=True, exist_ok=True)
+
+    def stop_installation(self):
+        """Set the stop event to abort the installation process."""
+        stop_event.set()
 
     def _run_plugin(self, plugin) -> bool:
         """Execute a single plugin and capture its output to a log file.
@@ -119,36 +123,6 @@ class SetupManager:
         # Step 2 – gather required executables from selected plugins
         required_exes = set()
 
-        # # Ensure default package manager is present first
-        # if pkg_mgr:
-        #     required_exes.add(pkg_mgr)
-
-        # for plugin in self.plugins:
-        #     for cmd in getattr(plugin, "commands", []):
-        #         # Determine the executable name based on cmd type
-        #         # if isinstance(cmd, str):
-        #         #     # If cmd is a string, treat it as a single command and stop processing further commands for this plugin
-        #         #     exe = cmd
-        #         #     # Break out of the inner loop after handling the string command
-        #         #     required_exes.add(exe)
-        #         #     break
-        #         if isinstance(cmd, (list, tuple)) and cmd:
-        #             exe = cmd[0]
-        #             required_exes.add(exe)
-        #             print(f"[INFO] Package {plugin.name} requires {exe}")
-
-        # No longer discard the default package manager; it will be installed if missing
-        # Step 3 – determine missing executables and corresponding installer plugins
-        # missing_exes = [exe for exe in required_exes if shutil.which(exe) is None]
-        # installer_plugins: List[Any] = []
-        # could_not_process: List[str] = []
-        # for exe in missing_exes:
-        #     installer = next((p for p in self.all_plugins if getattr(p, "name", None) == exe), None)
-        #     if installer and hasattr(installer, "install_commands"):
-        #         installer_plugins.append(installer)
-        #     else:
-        #         could_not_process.append(exe)
-
         # Resolve plugin dependencies recursively and build ordered list without duplicates
         ordered_plugins: List[Any] = []
         visited: set = set()
@@ -176,6 +150,10 @@ class SetupManager:
         completed: List[str] = []
         failed: List[str] = []
         for plugin in ordered_plugins:
+            if stop_event.is_set():
+                print("\n[INFO] Installation aborted by user.")
+                break
+                
             print(f"[INFO] Installing package: {plugin.name}")
             ok = self._run_plugin(plugin)
             if ok:

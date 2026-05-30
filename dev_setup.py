@@ -6,6 +6,7 @@ A cross‑platform development environment setup tool.
 import argparse
 import shutil
 import sys
+import os
 from pathlib import Path
 import json
 import curses
@@ -309,7 +310,6 @@ def main() -> int:
         except Exception as e_cleanup:
             print(f"[WARN] Failed to clean up log files: {e_cleanup}", file=sys.stderr)
         return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -30,7 +30,12 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, manager: SetupManager, **kwargs):
         self.manager = manager
         # Resolve the directory containing the UI assets
-        self.ui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "web_ui"))
+        if getattr(sys, 'frozen', False):
+            # Running as compiled PyInstaller executable
+            base_dir = sys._MEIPASS
+            self.ui_dir = os.path.join(base_dir, "web_ui")
+        else:
+            self.ui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "web_ui"))
         super().__init__(*args, directory=self.ui_dir, **kwargs)
 
     def do_GET(self):
@@ -58,6 +63,10 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
 
             # Run installation in background thread
             threading.Thread(target=self._run_installation, daemon=True).start()
+            self.send_response(HTTPStatus.OK)
+            self.end_headers()
+        elif parsed.path == "/api/kill":
+            self.manager.stop_installation()
             self.send_response(HTTPStatus.OK)
             self.end_headers()
         else:
@@ -95,18 +104,27 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
 
     def _run_installation(self):
         # Redirect stdout/stderr to the queue while manager runs.
+        original_stdout, original_stderr = sys.stdout, sys.stderr
         class QueueWriter:
             def write(self, s: str):
                 if s:
                     _output_queue.put(s)
+                    try:
+                        original_stdout.write(s)
+                        original_stdout.flush()
+                    except:
+                        pass
             def flush(self):
-                pass
-        original_stdout, original_stderr = sys.stdout, sys.stderr
+                try:
+                    original_stdout.flush()
+                except:
+                    pass
         sys.stdout = sys.stderr = QueueWriter()
         try:
             self.manager.run()
         finally:
             sys.stdout, sys.stderr = original_stdout, original_stderr
+            
             # After run, gather plugin log files and send their contents to client
             try:
                 import json, os
@@ -160,6 +178,14 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
                 self.wfile.flush()
             except (ConnectionResetError, BrokenPipeError):
                 break
+
+    def log_message(self, format, *args):
+        pass
+
+    # Optional: you can also customize errors
+    def log_error(self, format, *args):
+        pass
+        
 
 def start_server(manager: SetupManager, host: str = "127.0.0.1", port: int = 8000):
     """Launch the HTTP server in a background thread."""
