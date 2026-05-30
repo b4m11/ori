@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEV_SETUP // SYSTEM CONFIGURATOR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f0ec;
+      --fg: #0a0a0a;
+      --accent: #ff4d4d;
+      --accent2: #7b61ff;
+      --border: #0a0a0a;
+      --muted: #6b6b6b;
+      --card-bg: #ffffff;
+      --dark-bg: #0a0a0a;
+      --dark-fg: #f0f0ec;
+      --mono: 'Space Mono', 'Courier New', monospace;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: var(--mono);
+      color: var(--fg);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ── TOP NAV BAR ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 2px solid var(--border);
+      background: var(--card-bg);
+    }
+    .topbar-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .topbar-logo span { color: var(--accent2); }
+    .topbar-nav {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+    }
+    .topbar-nav a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .topbar-nav a:hover { color: var(--fg); }
+    .topbar-status {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    /* ── MAIN CONTAINER ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      opacity: 0.3;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      border: 2px solid var(--border);
+      background: var(--dark-bg);
+      color: var(--dark-fg);
+      padding: 3rem 2.5rem;
+      margin-top: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero-sub {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      max-width: 420px;
+      font-size: 0.8rem;
+      color: #999;
+      line-height: 1.6;
+    }
+    .hero-meta {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      text-align: right;
+      font-size: 0.65rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .hero-meta .val { color: var(--accent); }
+
+    /* ── STEP INDICATOR ── */
+    .steps-bar {
+      display: flex;
+      border: 2px solid var(--border);
+      margin-top: 1.5rem;
+    }
+    .step-indicator {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-align: center;
+      border-right: 2px solid var(--border);
+      background: var(--card-bg);
+      color: var(--muted);
+      cursor: default;
+      transition: all 0.2s;
+    }
+    .step-indicator:last-child { border-right: none; }
+    .step-indicator.active {
+      background: var(--dark-bg);
+      color: var(--accent);
+    }
+    .step-indicator.completed {
+      background: var(--accent);
+      color: var(--dark-bg);
+    }
+
+    /* ── CATEGORY GRID ── */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0;
+      border: 2px solid var(--border);
+      margin-top: 1rem;
+    }
+    .cat-group {
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      background: var(--card-bg);
+      transition: background 0.15s;
+    }
+    .cat-group:hover { background: #fafaf6; }
+    .cat-group.selected { background: rgba(200, 255, 0, 0.08); }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+    .cat-header input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .cat-header input[type="checkbox"]:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .cat-header input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px;
+      left: 1px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--dark-bg);
+    }
+    .cat-name {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.8rem;
+    }
+    .sub-list {
+      margin-left: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .sub-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+    .sub-item:hover { color: var(--fg); }
+    .sub-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 11px;
+      height: 11px;
+      border: 1.5px solid var(--muted);
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .sub-item input[type="checkbox"]:checked {
+      background: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+    /* ── PLUGIN GRID ── */
+    .plugin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0;
+      border: 2px solid var(--border);
+      margin-top: 1rem;
+    }
+    .plugin-card {
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      /* align-items: center; */
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .plugin-card>.plugin-categories {
+      margin-left: auto;
+    }
+    .plugin-card:hover { background: #fafaf6; }
+    .plugin-card.selected { background: rgba(200, 255, 0, 0.12); }
+    .plugin-card input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .plugin-card input[type="checkbox"]:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      border: 2px dashed var(--muted);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 1rem;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      border: 2px solid var(--border);
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--dark-bg);
+      border-color: var(--dark-bg);
+    }
+    .btn-primary:hover {
+      background: var(--dark-bg);
+      color: var(--accent);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--fg);
+    }
+    .btn-secondary:hover {
+      background: var(--dark-bg);
+      color: var(--dark-fg);
+    }
+    .btn-group {
+      display: flex;
+      gap: 0;
+      margin-top: 1.5rem;
+    }
+    .btn-group .btn { border-left-width: 0; }
+    .btn-group .btn:first-child { border-left-width: 2px; }
+
+    /* ── TERMINAL OUTPUT ── */
+    .terminal {
+      background: var(--dark-bg);
+      color: var(--accent);
+      border: 2px solid var(--border);
+      padding: 1.5rem;
+      margin-top: 1rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      line-height: 1.7;
+      height: 400px;
+      overflow-y: auto;
+      position: relative;
+    }
+    .terminal::before {
+      content: '> TERMINAL_OUTPUT';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0.4rem 1rem;
+      background: var(--accent);
+      color: var(--dark-bg);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .terminal pre {
+      margin-top: 1.5rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1.5rem;
+      border: 2px solid var(--border);
+      border-top: none;
+      background: var(--dark-bg);
+      color: var(--accent);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 0.5rem;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── DONE SCREEN ── */
+    .done-box {
+      border: 2px solid var(--accent);
+      background: var(--dark-bg);
+      color: var(--dark-fg);
+      padding: 3rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .done-box h2 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .done-box p {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── COUNTERS / BADGES ── */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid;
+    }
+    .badge-accent { border-color: var(--accent); color: var(--accent); }
+    .category-badge { font-size: 0.6rem; font-weight: bold; margin-right:4px; }
+    .badge-purple { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── TRANSITIONS ── */
+    .fade-enter-active, .fade-leave-active { transition: opacity 0.2s; }
+    .fade-enter-from, .fade-leave-to { opacity: 0; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">✦ DEV<span>_</span>SETUP</div>
+    <div class="topbar-nav">
+      <a href="#">/ Categories</a>
+      <a href="#">/ Plugins</a>
+      <a href="#">/ Install</a>
+    </div>
+    <div class="topbar-status">
+      SYS.TIME<br>
+      <span id="clock"></span>
+    </div>
+  </div>
+
+  <div id="app"></div>
+
+<script type="module">
+  import { createApp, ref, onMounted, computed, watch, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+  // Live clock
+  const clockEl = document.getElementById('clock');
+  setInterval(() => {
+    const now = new Date();
+    clockEl.textContent = now.toLocaleTimeString('en-GB', { hour12: false }) + ' UTC' + (now.getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(now.getTimezoneOffset() / 60);
+  }, 1000);
+
+  const App = {
+    setup() {
+      const profiles = ref([]);
+      const plugins = ref([]);
+      const selectedProfiles = ref([]);
+      const selectedPlugins = ref([]);
+      const output = ref('');
+      const logs = ref([]);
+      const showLogs = ref(false);
+      const step = ref('categories'); // categories -> plugins -> install -> done
+
+      const categoryMap = computed(() => {
+        const map = {};
+        profiles.value.forEach(cat => {
+          const parts = cat.split('>');
+          if (parts.length === 2) {
+            const [parent, sub] = parts;
+            if (!map[parent]) map[parent] = [];
+            map[parent].push(cat);
+          } else {
+            if (!map[cat]) map[cat] = [];
+          }
+        });
+        return map;
+      });
+
+      const parentSelected = (parent) => {
+        const children = categoryMap.value[parent] || [];
+        if (children.length === 0) return selectedProfiles.value.includes(parent);
+        return children.every(c => selectedProfiles.value.includes(c));
+      };
+
+      const parentPartial = (parent) => {
+        const children = categoryMap.value[parent] || [];
+        if (children.length === 0) return false;
+        const count = children.filter(c => selectedProfiles.value.includes(c)).length;
+        return count > 0 && count < children.length;
+      };
+
+      const toggleParent = (parent, checked) => {
+        const children = categoryMap.value[parent] || [];
+        if (checked) {
+          if (!selectedProfiles.value.includes(parent)) selectedProfiles.value.push(parent);
+          children.forEach(c => { if (!selectedProfiles.value.includes(c)) selectedProfiles.value.push(c); });
+        } else {
+          selectedProfiles.value = selectedProfiles.value.filter(v => v !== parent && !children.includes(v));
+        }
+      };
+
+      const filteredPlugins = computed(() => {
+        if (selectedProfiles.value.length === 0) return [];
+        return plugins.value.filter(p =>
+          p.categories.some(cat => selectedProfiles.value.includes(cat))
+        );
+      });
+
+      const selectedCount = computed(() => selectedProfiles.value.length);
+      const pluginCount = computed(() => selectedPlugins.value.length);
+
+      const loadData = async () => {
+        const res = await fetch('/api/profiles');
+        const profData = await res.json();
+        profiles.value = profData.profiles;
+        const pRes = await fetch('/api/plugins');
+        const plugData = await pRes.json();
+        plugins.value = plugData.plugins;
+      };
+
+      const goToPlugins = () => { step.value = 'plugins'; };
+      const goToCategories = () => { step.value = 'categories'; };
+
+      const runInstall = async () => {
+        step.value = 'install';
+        console.log(selectedPlugins.value)
+        await fetch('/api/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            profiles: selectedProfiles.value,
+            plugins: selectedPlugins.value,
+          }),
+        });
+        const source = new EventSource('/api/stream');
+        source.onmessage = e => {
+          if (e.data.startsWith('[LOGFILE]')) {
+            try {
+              const payload = JSON.parse(e.data.slice(9));
+              logs.value.push({ name: payload.name, content: payload.content });
+            } catch (err) {
+              console.error('Failed to parse log file payload', err);
+            }
+          } else {
+            output.value += e.data + '\n';
+            nextTick(() => {
+              const term = document.querySelector('.terminal');
+              if (term) term.scrollTop = term.scrollHeight;
+            });
+          }
+
+          console.log(e.data)
+          if (e.data.startsWith('[DONE]')) {
+            step.value = 'done';
+            // source.close();
+            return;
+          }
+        };
+        source.onerror = () => {
+          source.close();
+          step.value = 'done';
+        };
+      };
+
+      const reset = () => {
+        selectedProfiles.value = [];
+        selectedPlugins.value = [];
+        output.value = '';
+        logs.value = [];
+        step.value = 'categories';
+      };
+
+      const togglePlugin = (name) => {
+        const idx = selectedPlugins.value.indexOf(name);
+        if (idx >= 0) selectedPlugins.value.splice(idx, 1);
+        else selectedPlugins.value.push(name);
+      };
+
+      onMounted(loadData);
+
+      return {
+        profiles, plugins, selectedProfiles, selectedPlugins,
+        output, logs, step, categoryMap, parentSelected, parentPartial,
+        toggleParent, filteredPlugins, selectedCount, pluginCount,
+        goToPlugins, goToCategories, runInstall, reset, togglePlugin, showLogs,
+      };
+    },
+    template: `
+      <div class="container">
+
+        <!-- HERO -->
+        <div class="hero">
+          <div class="hero-meta">
+            > SYS.STATUS<br>
+            <span class="val">ONLINE</span><br><br>
+            > PLUGINS<br>
+            <span class="val">{{ plugins.length }} LOADED</span>
+          </div>
+          <div class="hero-sub">Functional. Modular. Automated.</div>
+          <h1>SYSTEM<br><span class="accent">SETUP_</span></h1>
+          <p class="hero-desc">
+            Raw configuration. Structural package management.
+            Select categories, choose plugins, execute installation.
+            No fluff. No polish. No compromise.
+          </p>
+        </div>
+
+        <!-- STEP BAR -->
+        <div class="steps-bar">
+          <div class="step-indicator"
+               :class="{ active: step === 'categories', completed: step !== 'categories' }">
+            /01 Categories
+          </div>
+          <div class="step-indicator"
+               :class="{ active: step === 'plugins', completed: step === 'install' || step === 'done' }">
+            /02 Plugins
+          </div>
+          <div class="step-indicator"
+               :class="{ active: step === 'install', completed: step === 'done' }">
+            /03 Install
+          </div>
+        </div>
+
+        <!-- STEP 1: CATEGORIES -->
+        <template v-if="step === 'categories'">
+          <div class="section-label">/01 Select Categories <span class="badge badge-accent" v-if="selectedCount">{{ selectedCount }} selected</span></div>
+
+          <div class="cat-grid">
+            <div v-for="(children, parent) in categoryMap" :key="parent"
+                 class="cat-group" :class="{ selected: parentSelected(parent) }">
+              <label class="cat-header" @click.prevent="toggleParent(parent, !parentSelected(parent))">
+                <input type="checkbox" :checked="parentSelected(parent)" />
+                <span class="cat-name">{{ parent }}</span>
+              </label>
+              <div class="sub-list" v-if="children.length">
+                <label v-for="sub in children" :key="sub" class="sub-item">
+                  <input type="checkbox" :value="sub" v-model="selectedProfiles" />
+                  {{ sub.split('>')[1] }}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" @click="goToPlugins" :disabled="selectedCount === 0">
+              Continue → /02
+            </button>
+          </div>
+        </template>
+
+        <!-- STEP 2: PLUGINS -->
+        <template v-if="step === 'plugins'">
+          <div class="section-label">/02 Select Plugins <span class="badge badge-purple" v-if="pluginCount">{{ pluginCount }} selected</span></div>
+
+            <div class="plugin-grid" v-if="filteredPlugins.length">
+              <div v-for="p in filteredPlugins" :key="p.name"
+                   class="plugin-card" :class="{ selected: selectedPlugins.includes(p.name) }"
+                   @click="togglePlugin(p.name)">
+                <input type="checkbox" :checked="selectedPlugins.includes(p.name)" />
+                {{ p.name }}
+                <div class="plugin-categories" v-if="p.categories && p.categories.length" style="margin-top:4px;">
+                  <span class="badge badge-accent" v-for="cat in p.categories" :key="cat">{{ cat }}</span>
+                </div>
+              </div>
+            </div>
+          <div class="empty-state" v-else>
+            No plugins match selected categories
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-secondary" @click="goToCategories">← /01 Back</button>
+            <button class="btn btn-primary" @click="runInstall" :disabled="pluginCount === 0">
+              Execute Install ↗
+            </button>
+          </div>
+        </template>
+
+        <!-- STEP 3: INSTALL -->
+        <template v-if="step === 'install'">
+          <div class="section-label">/03 Installation</div>
+          <div class="terminal">
+            <pre>{{ output }}</pre>
+          </div>
+          <div class="log-files" v-if="logs.length">
+            <div class="log-file" v-for="log in logs" :key="log.name">
+              <h4>{{ log.name }}</h4>
+              <pre>{{ log.content }}</pre>
+            </div>
+          </div>
+          <div class="status-bar">
+            <span><span class="status-dot"></span> Process Running</span>
+            <span>Plugins: {{ pluginCount }}</span>
+          </div>
+        </template>
+
+        <!-- DONE -->
+
+        <template v-if="step === 'done'">
+            <div class="done-box">
+              <h2>✓ COMPLETE_</h2>
+              <p>All systems operational. Installation finished.</p>
+              <button class="btn btn-primary" @click="reset">Reset System ↗</button>
+            </div>
+            <div class="tab-bar">
+              <button class="btn" :class="{ 'btn-primary': !showLogs }" @click="showLogs = false">Summary</button>
+              <button class="btn" :class="{ 'btn-primary': showLogs }" @click="showLogs = true">Logs</button>
+            </div>
+            <div v-if="!showLogs">
+              <p>Installation completed successfully.</p>
+            </div>
+            <div v-else class="log-files">
+              <div class="log-file" v-for="log in logs" :key="log.name">
+                <h4>{{ log.name }}</h4>
+                <pre>{{ log.content }}</pre>
+              </div>
+            </div>
+        </template>
+
+
+      </div>
+    `,
+  };
+
+  createApp(App).mount('#app');
+</script>
+</body>
+</html>
