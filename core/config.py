@@ -8,7 +8,6 @@ from pathlib import Path
 
 # Default configuration used when no config file is provided.
 DEFAULT_CONFIG = {
-    # "dry_run": True,
     "plugins": [],
     "custom_plugins": [],
 }

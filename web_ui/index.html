@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DEV_SETUP // SYSTEM CONFIGURATOR</title>
+  <title>ORI_ //</title>
   <meta name="description" content="ORI_ dev setup system configurator — select plugins and install your development environment." />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
@@ -292,7 +292,6 @@
 
         const runInstall = async () => {
           step.value = 'install';
-          console.log(selectedPlugins.value);
           await fetch('/api/run', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
