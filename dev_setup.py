@@ -299,6 +299,15 @@ def main() -> int:
         # Restrict manager to chosen plugins (by name)
         manager.plugins = [p for p in available_plugins if p.name in selected_plugins]
         manager.run()
+        log_dir = getattr(manager, "output_dir", None)
+        # After sending logs, delete them to clean up
+        try:
+            if log_dir and os.path.isdir(log_dir):
+                for f in os.listdir(log_dir):
+                    if f.endswith('.log'):
+                        os.remove(os.path.join(log_dir, f))
+        except Exception as e_cleanup:
+            print(f"[WARN] Failed to clean up log files: {e_cleanup}", file=sys.stderr)
         return 0
 
 

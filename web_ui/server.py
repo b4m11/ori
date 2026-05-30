@@ -8,6 +8,7 @@ Implements:
 """
 
 import json
+import shutil
 import os
 import sys
 import threading
@@ -85,7 +86,11 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
         # Return list of plugin dicts: {name, categories}
         plugins = []
         for p in self.manager.all_plugins:
-            plugins.append({"name": p.name, "categories": getattr(p, "categories", [])})
+            plugins.append({
+                "name": p.name, 
+                "categories": getattr(p, "categories", []),
+                "installed": shutil.which(p.name) is not None
+            })
         return plugins
 
     def _run_installation(self):
@@ -128,8 +133,6 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
             except Exception as e_cleanup:
                 print(f"[WARN] Failed to clean up log files: {e_cleanup}", file=sys.stderr)
             # Signal end of stream
-            
-
 
     def _handle_sse(self):
         self.send_response(HTTPStatus.OK)

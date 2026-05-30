@@ -1,474 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DEV_SETUP // SYSTEM CONFIGURATOR</title>
+  <meta name="description" content="ORI_ dev setup system configurator — select plugins and install your development environment." />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#32cd32',
+            'accent-dark': '#28a428',
+            accent2: '#7b61ff',
+            dark: '#0a0a0a',
+            'dark-fg': '#f0f0ec',
+            bg: '#f0f0ec',
+            muted: '#6b6b6b',
+            card: '#ffffff',
+          },
+          fontFamily: {
+            mono: ["'Space Mono'", "'Courier New'", 'monospace'],
+          },
+          animation: {
+            pulse2: 'pulse2 2s ease-in-out infinite',
+          },
+          keyframes: {
+            pulse2: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0.3' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
   <style>
+    /* Base */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f0f0ec;
-      --fg: #0a0a0a;
-      --accent: #ff4d4d;
-      --accent2: #7b61ff;
-      --border: #0a0a0a;
-      --muted: #6b6b6b;
-      --card-bg: #ffffff;
-      --dark-bg: #0a0a0a;
-      --dark-fg: #f0f0ec;
-      --mono: 'Space Mono', 'Courier New', monospace;
-    }
-
     html, body {
       height: 100%;
-      background: var(--bg);
-      font-family: var(--mono);
-      color: var(--fg);
+      background: #f0f0ec;
+      font-family: 'Space Mono', 'Courier New', monospace;
+      color: #0a0a0a;
       font-size: 13px;
       line-height: 1.5;
     }
 
-    /* ── TOP NAV BAR ── */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 1.5rem;
-      border-bottom: 2px solid var(--border);
-      background: var(--card-bg);
-    }
-    .topbar-logo {
-      font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .topbar-logo span { color: var(--accent2); }
-    .topbar-nav {
-      display: flex;
-      gap: 1.5rem;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--muted);
-    }
-    .topbar-nav a {
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .topbar-nav a:hover { color: var(--fg); }
-    .topbar-status {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      text-align: right;
-      line-height: 1.4;
-    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #32cd32; }
 
-    /* ── MAIN CONTAINER ── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 1.5rem 3rem;
-    }
-
-    /* ── SECTION LABEL ── */
-    .section-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-top: 2rem;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      opacity: 0.3;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      border: 2px solid var(--border);
-      background: var(--dark-bg);
-      color: var(--dark-fg);
-      padding: 3rem 2.5rem;
-      margin-top: 1.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 700;
-      line-height: 0.95;
-      text-transform: uppercase;
-      letter-spacing: -1px;
-      margin-bottom: 1rem;
-    }
-    .hero h1 .accent { color: var(--accent); }
-    .hero-sub {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-    }
-    .hero-desc {
-      max-width: 420px;
-      font-size: 0.8rem;
-      color: #999;
-      line-height: 1.6;
-    }
-    .hero-meta {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      text-align: right;
-      font-size: 0.65rem;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .hero-meta .val { color: var(--accent); }
-
-    /* ── STEP INDICATOR ── */
-    .steps-bar {
-      display: flex;
-      border: 2px solid var(--border);
-      margin-top: 1.5rem;
-    }
-    .step-indicator {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-align: center;
-      border-right: 2px solid var(--border);
-      background: var(--card-bg);
-      color: var(--muted);
-      cursor: default;
-      transition: all 0.2s;
-    }
-    .step-indicator:last-child { border-right: none; }
-    .step-indicator.active {
-      background: var(--dark-bg);
-      color: var(--accent);
-    }
-    .step-indicator.completed {
-      background: var(--accent);
-      color: var(--dark-bg);
-    }
-
-    /* ── CATEGORY GRID ── */
-    .cat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 0;
-      border: 2px solid var(--border);
-      margin-top: 1rem;
-    }
-    .cat-group {
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 1.25rem;
-      background: var(--card-bg);
-      transition: background 0.15s;
-    }
-    .cat-group:hover { background: #fafaf6; }
-    .cat-group.selected { background: rgba(200, 255, 0, 0.08); }
-    .cat-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      margin-bottom: 0.5rem;
-    }
-    .cat-header input[type="checkbox"] {
+    /* Checkbox styling */
+    input[type="checkbox"] {
       appearance: none;
       -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
-      border: 2px solid var(--border);
-      background: var(--bg);
+      border: 2px solid #0a0a0a;
+      background: #f0f0ec;
       cursor: pointer;
       position: relative;
       flex-shrink: 0;
     }
-    .cat-header input[type="checkbox"]:checked {
-      background: var(--accent);
-      border-color: var(--accent);
+    input[type="checkbox"]:checked {
+      background: #32cd32;
+      border-color: #32cd32;
     }
-    .cat-header input[type="checkbox"]:checked::after {
+    input[type="checkbox"]:checked::after {
       content: '✓';
       position: absolute;
       top: -2px;
       left: 1px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      color: var(--dark-bg);
-    }
-    .cat-name {
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 0.8rem;
-    }
-    .sub-list {
-      margin-left: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .sub-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      font-size: 0.75rem;
-      color: var(--muted);
-      transition: color 0.15s;
-    }
-    .sub-item:hover { color: var(--fg); }
-    .sub-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 11px;
-      height: 11px;
-      border: 1.5px solid var(--muted);
-      background: transparent;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .sub-item input[type="checkbox"]:checked {
-      background: var(--accent2);
-      border-color: var(--accent2);
+      color: #0a0a0a;
     }
 
-    /* ── PLUGIN GRID ── */
-    .plugin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 0;
-      border: 2px solid var(--border);
-      margin-top: 1rem;
-    }
-    .plugin-card {
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1rem;
-      background: var(--card-bg);
-      display: flex;
-      flex-direction: column;
-      /* align-items: center; */
-      gap: 0.5rem;
-      cursor: pointer;
-      transition: background 0.15s;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .plugin-card>.plugin-categories {
-      margin-left: auto;
-    }
-    .plugin-card:hover { background: #fafaf6; }
-    .plugin-card.selected { background: rgba(200, 255, 0, 0.12); }
-    .plugin-card input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
-      border: 2px solid var(--border);
-      background: transparent;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .plugin-card input[type="checkbox"]:checked {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    /* ── EMPTY STATE ── */
-    .empty-state {
-      border: 2px dashed var(--muted);
-      padding: 2rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-top: 1rem;
-    }
-
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1.8rem;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      cursor: pointer;
-      border: 2px solid var(--border);
-      transition: all 0.15s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: var(--dark-bg);
-      border-color: var(--dark-bg);
-    }
-    .btn-primary:hover {
-      background: var(--dark-bg);
-      color: var(--accent);
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--fg);
-    }
-    .btn-secondary:hover {
-      background: var(--dark-bg);
-      color: var(--dark-fg);
-    }
-    .btn-group {
-      display: flex;
-      gap: 0;
-      margin-top: 1.5rem;
-    }
-    .btn-group .btn { border-left-width: 0; }
-    .btn-group .btn:first-child { border-left-width: 2px; }
-
-    /* ── TERMINAL OUTPUT ── */
-    .terminal {
-      background: var(--dark-bg);
-      color: var(--accent);
-      border: 2px solid var(--border);
-      padding: 1.5rem;
-      margin-top: 1rem;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      line-height: 1.7;
-      height: 400px;
-      overflow-y: auto;
-      position: relative;
-    }
-    .terminal::before {
-      content: '> TERMINAL_OUTPUT';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 0.4rem 1rem;
-      background: var(--accent);
-      color: var(--dark-bg);
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .terminal pre {
-      margin-top: 1.5rem;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-
-    /* ── STATUS BAR ── */
-    .status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.6rem 1.5rem;
-      border: 2px solid var(--border);
-      border-top: none;
-      background: var(--dark-bg);
-      color: var(--accent);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
+    /* Status dot pulse animation */
     .status-dot {
       display: inline-block;
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--accent);
+      background: #32cd32;
       margin-right: 0.5rem;
-      animation: pulse 2s infinite;
+      animation: pulse2 2s ease-in-out infinite;
     }
-    @keyframes pulse {
+    @keyframes pulse2 {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
 
-    /* ── DONE SCREEN ── */
-    .done-box {
-      border: 2px solid var(--accent);
-      background: var(--dark-bg);
-      color: var(--dark-fg);
-      padding: 3rem;
-      text-align: center;
-      margin-top: 1.5rem;
-    }
-    .done-box h2 {
-      font-size: 2rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-    .done-box p {
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin-bottom: 1.5rem;
-    }
-
-    /* ── COUNTERS / BADGES ── */
-    .badge {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      font-size: 0.6rem;
+    /* Terminal ::before label */
+    .terminal-wrap { position: relative; }
+    .terminal-wrap::before {
+      content: '> TERMINAL_OUTPUT';
+      display: block;
+      padding: 0.35rem 1rem;
+      background: #32cd32;
+      color: #0a0a0a;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      border: 1px solid;
     }
-    .badge-accent { border-color: var(--accent); color: var(--accent); }
-    .category-badge { font-size: 0.6rem; font-weight: bold; margin-right:4px; }
-    .badge-purple { border-color: var(--accent2); color: var(--accent2); }
 
-    /* ── TRANSITIONS ── */
+    /* Section label separator */
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #0a0a0a;
+      opacity: 0.2;
+    }
+
+    /* Vue fade transition */
     .fade-enter-active, .fade-leave-active { transition: opacity 0.2s; }
     .fade-enter-from, .fade-leave-to { opacity: 0; }
 
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--dark-bg); }
-    ::-webkit-scrollbar-thumb { background: var(--accent); }
+    /* Sub-item checkbox (smaller, purple checked) */
+    .sub-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 11px;
+      height: 11px;
+      border: 1.5px solid #6b6b6b;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .sub-checkbox:checked {
+      background: #7b61ff;
+      border-color: #7b61ff;
+    }
+    .sub-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      font-size: 9px;
+      font-weight: 700;
+      color: white;
+    }
+
+    /* Plugin card checkbox */
+    .plugin-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #0a0a0a;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .plugin-checkbox:checked {
+      background: #32cd32;
+      border-color: #32cd32;
+    }
+    .plugin-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px;
+      left: 0px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #0a0a0a;
+    }
   </style>
 </head>
-<body>
+
+<body class="bg-bg font-mono text-dark text-[13px] leading-relaxed">
 
   <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="topbar-logo">✦ DEV<span>_</span>SETUP</div>
-    <div class="topbar-nav">
-      <a href="#">/ Categories</a>
-      <a href="#">/ Plugins</a>
-      <a href="#">/ Install</a>
-    </div>
-    <div class="topbar-status">
+  <div class="flex items-center justify-between px-6 py-3 border-b-2 border-dark bg-card">
+    <div class="font-bold text-base tracking-[2px] uppercase">✦ DEV<span class="text-accent2">_</span>SETUP</div>
+    <nav class="flex gap-6 text-[0.75rem] uppercase tracking-[1.5px] text-muted">
+      <a href="#" class="text-muted hover:text-dark transition-colors no-underline">/ Categories</a>
+      <a href="#" class="text-muted hover:text-dark transition-colors no-underline">/ Plugins</a>
+      <a href="#" class="text-muted hover:text-dark transition-colors no-underline">/ Install</a>
+    </nav>
+    <div class="text-[0.7rem] uppercase tracking-[1px] text-muted text-right leading-snug">
       SYS.TIME<br>
       <span id="clock"></span>
     </div>
@@ -476,288 +196,426 @@
 
   <div id="app"></div>
 
-<script type="module">
-  import { createApp, ref, onMounted, computed, watch, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+  <script type="module">
+    import { createApp, ref, onMounted, computed, watch, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 
-  // Live clock
-  const clockEl = document.getElementById('clock');
-  setInterval(() => {
-    const now = new Date();
-    clockEl.textContent = now.toLocaleTimeString('en-GB', { hour12: false }) + ' UTC' + (now.getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(now.getTimezoneOffset() / 60);
-  }, 1000);
+    // Live clock
+    const clockEl = document.getElementById('clock');
+    setInterval(() => {
+      const now = new Date();
+      clockEl.textContent = now.toLocaleTimeString('en-GB', { hour12: false }) + ' UTC' + (now.getTimezoneOffset() > 0 ? '-' : '+') + Math.abs(now.getTimezoneOffset() / 60);
+    }, 1000);
 
-  const App = {
-    setup() {
-      const profiles = ref([]);
-      const plugins = ref([]);
-      const selectedProfiles = ref([]);
-      const selectedPlugins = ref([]);
-      const output = ref('');
-      const logs = ref([]);
-      const showLogs = ref(false);
-      const step = ref('categories'); // categories -> plugins -> install -> done
+    const App = {
+      setup() {
+        const profiles = ref([]);
+        const plugins = ref([]);
+        const selectedProfiles = ref([]);
+        const selectedPlugins = ref([]);
+        const output = ref('');
+        const logs = ref([]);
+        const showLogs = ref(false);
+        const sidebarOpen = ref(true);
+        const searchQuery = ref('');
+        const step = ref('plugins'); // start directly at plugins
 
-      const categoryMap = computed(() => {
-        const map = {};
-        profiles.value.forEach(cat => {
-          const parts = cat.split('>');
-          if (parts.length === 2) {
-            const [parent, sub] = parts;
-            if (!map[parent]) map[parent] = [];
-            map[parent].push(cat);
-          } else {
-            if (!map[cat]) map[cat] = [];
-          }
-        });
-        return map;
-      });
-
-      const parentSelected = (parent) => {
-        const children = categoryMap.value[parent] || [];
-        if (children.length === 0) return selectedProfiles.value.includes(parent);
-        return children.every(c => selectedProfiles.value.includes(c));
-      };
-
-      const parentPartial = (parent) => {
-        const children = categoryMap.value[parent] || [];
-        if (children.length === 0) return false;
-        const count = children.filter(c => selectedProfiles.value.includes(c)).length;
-        return count > 0 && count < children.length;
-      };
-
-      const toggleParent = (parent, checked) => {
-        const children = categoryMap.value[parent] || [];
-        if (checked) {
-          if (!selectedProfiles.value.includes(parent)) selectedProfiles.value.push(parent);
-          children.forEach(c => { if (!selectedProfiles.value.includes(c)) selectedProfiles.value.push(c); });
-        } else {
-          selectedProfiles.value = selectedProfiles.value.filter(v => v !== parent && !children.includes(v));
-        }
-      };
-
-      const filteredPlugins = computed(() => {
-        if (selectedProfiles.value.length === 0) return [];
-        return plugins.value.filter(p =>
-          p.categories.some(cat => selectedProfiles.value.includes(cat))
-        );
-      });
-
-      const selectedCount = computed(() => selectedProfiles.value.length);
-      const pluginCount = computed(() => selectedPlugins.value.length);
-
-      const loadData = async () => {
-        const res = await fetch('/api/profiles');
-        const profData = await res.json();
-        profiles.value = profData.profiles;
-        const pRes = await fetch('/api/plugins');
-        const plugData = await pRes.json();
-        plugins.value = plugData.plugins;
-      };
-
-      const goToPlugins = () => { step.value = 'plugins'; };
-      const goToCategories = () => { step.value = 'categories'; };
-
-      const runInstall = async () => {
-        step.value = 'install';
-        console.log(selectedPlugins.value)
-        await fetch('/api/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            profiles: selectedProfiles.value,
-            plugins: selectedPlugins.value,
-          }),
-        });
-        const source = new EventSource('/api/stream');
-        source.onmessage = e => {
-          if (e.data.startsWith('[LOGFILE]')) {
-            try {
-              const payload = JSON.parse(e.data.slice(9));
-              logs.value.push({ name: payload.name, content: payload.content });
-            } catch (err) {
-              console.error('Failed to parse log file payload', err);
+        const categoryMap = computed(() => {
+          const map = {};
+          profiles.value.forEach(cat => {
+            const parts = cat.split('>');
+            if (parts.length === 2) {
+              const [parent, sub] = parts;
+              if (!map[parent]) map[parent] = [];
+              map[parent].push(cat);
+            } else {
+              if (!map[cat]) map[cat] = [];
             }
+          });
+          return map;
+        });
+
+        const parentSelected = (parent) => {
+          const children = categoryMap.value[parent] || [];
+          if (children.length === 0) return selectedProfiles.value.includes(parent);
+          return children.every(c => selectedProfiles.value.includes(c));
+        };
+
+        const parentPartial = (parent) => {
+          const children = categoryMap.value[parent] || [];
+          if (children.length === 0) return false;
+          const count = children.filter(c => selectedProfiles.value.includes(c)).length;
+          return count > 0 && count < children.length;
+        };
+
+        const toggleParent = (parent, checked) => {
+          const children = categoryMap.value[parent] || [];
+          if (checked) {
+            if (!selectedProfiles.value.includes(parent)) selectedProfiles.value.push(parent);
+            children.forEach(c => { if (!selectedProfiles.value.includes(c)) selectedProfiles.value.push(c); });
           } else {
-            output.value += e.data + '\n';
-            nextTick(() => {
-              const term = document.querySelector('.terminal');
-              if (term) term.scrollTop = term.scrollHeight;
-            });
+            selectedProfiles.value = selectedProfiles.value.filter(v => v !== parent && !children.includes(v));
           }
+        };
 
-          console.log(e.data)
-          if (e.data.startsWith('[DONE]')) {
+        const filteredPlugins = computed(() => {
+          let list = plugins.value;
+          if (selectedProfiles.value.length > 0) {
+            list = list.filter(p =>
+              p.categories.some(cat => selectedProfiles.value.includes(cat))
+            );
+          }
+          if (searchQuery.value.trim()) {
+            const q = searchQuery.value.trim().toLowerCase();
+            list = list.filter(p => p.name.toLowerCase().includes(q));
+          }
+          return list;
+        });
+
+        const selectedCount = computed(() => selectedProfiles.value.length);
+        const pluginCount = computed(() => selectedPlugins.value.length);
+
+        const loadData = async () => {
+          const res = await fetch('/api/profiles');
+          const profData = await res.json();
+          profiles.value = profData.profiles;
+          const pRes = await fetch('/api/plugins');
+          const plugData = await pRes.json();
+          plugins.value = plugData.plugins;
+        };
+
+        const goToPlugins = () => { step.value = 'plugins'; };
+        const goToCategories = () => { step.value = 'categories'; };
+        const goToConfirm = () => { step.value = 'confirm'; };
+
+        const runInstall = async () => {
+          step.value = 'install';
+          console.log(selectedPlugins.value);
+          await fetch('/api/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              profiles: selectedProfiles.value,
+              plugins: selectedPlugins.value,
+            }),
+          });
+          const source = new EventSource('/api/stream');
+          source.onmessage = e => {
+            if (e.data.startsWith('[LOGFILE]')) {
+              try {
+                const payload = JSON.parse(e.data.slice(9));
+                logs.value.push({ name: payload.name, content: payload.content });
+              } catch (err) {
+                console.error('Failed to parse log file payload', err);
+              }
+            } else {
+              output.value += e.data + '\n';
+              nextTick(() => {
+                const term = document.querySelector('.terminal-pre');
+                if (term) term.scrollTop = term.scrollHeight;
+              });
+            }
+
+            console.log(e.data);
+            if (e.data.startsWith('[DONE]')) {
+              step.value = 'done';
+              return;
+            }
+          };
+          source.onerror = () => {
+            source.close();
             step.value = 'done';
-            // source.close();
-            return;
+          };
+        };
+
+        const reset = () => {
+          selectedProfiles.value = [];
+          selectedPlugins.value = [];
+          output.value = '';
+          logs.value = [];
+          step.value = 'plugins';
+        };
+
+        const togglePlugin = (name) => {
+          const idx = selectedPlugins.value.indexOf(name);
+          if (idx >= 0) selectedPlugins.value.splice(idx, 1);
+          else selectedPlugins.value.push(name);
+        };
+        const toggleSidebar = () => {
+          sidebarOpen.value = !sidebarOpen.value;
+        };
+
+        const allFilterKeys = computed(() => {
+          const keys = [];
+          Object.entries(categoryMap.value).forEach(([parent, children]) => {
+            if (children.length === 0) keys.push(parent);
+            else children.forEach(c => keys.push(c));
+          });
+          return keys;
+        });
+
+        const allSelected = computed(() =>
+          allFilterKeys.value.length > 0 &&
+          allFilterKeys.value.every(k => selectedProfiles.value.includes(k))
+        );
+
+        const toggleAllFilters = () => {
+          if (allSelected.value) {
+            selectedProfiles.value = [];
+          } else {
+            selectedProfiles.value = [...allFilterKeys.value];
           }
         };
-        source.onerror = () => {
-          source.close();
-          step.value = 'done';
+
+        onMounted(loadData);
+
+        return {
+          profiles, plugins, selectedProfiles, selectedPlugins,
+          output, logs, step, categoryMap, parentSelected, parentPartial,
+          toggleParent, filteredPlugins, selectedCount, pluginCount,
+          goToPlugins, goToCategories, goToConfirm, runInstall, reset, togglePlugin, showLogs,
+          sidebarOpen, toggleSidebar, allSelected, toggleAllFilters, searchQuery,
         };
-      };
-
-      const reset = () => {
-        selectedProfiles.value = [];
-        selectedPlugins.value = [];
-        output.value = '';
-        logs.value = [];
-        step.value = 'categories';
-      };
-
-      const togglePlugin = (name) => {
-        const idx = selectedPlugins.value.indexOf(name);
-        if (idx >= 0) selectedPlugins.value.splice(idx, 1);
-        else selectedPlugins.value.push(name);
-      };
-
-      onMounted(loadData);
-
-      return {
-        profiles, plugins, selectedProfiles, selectedPlugins,
-        output, logs, step, categoryMap, parentSelected, parentPartial,
-        toggleParent, filteredPlugins, selectedCount, pluginCount,
-        goToPlugins, goToCategories, runInstall, reset, togglePlugin, showLogs,
-      };
-    },
-    template: `
-      <div class="container">
+      },
+      template: `
+      <div class="max-w-[1100px] mx-auto px-6 pb-12">
 
         <!-- HERO -->
-        <div class="hero">
-          <div class="hero-meta">
+        <div class="border-2 border-dark bg-dark text-dark-fg px-10 py-12 mt-6 relative overflow-hidden">
+          <div class="absolute top-4 right-6 text-right text-[0.65rem] text-muted uppercase tracking-[1px]">
             > SYS.STATUS<br>
-            <span class="val">ONLINE</span><br><br>
+            <span class="text-accent">ONLINE</span><br><br>
             > PLUGINS<br>
-            <span class="val">{{ plugins.length }} LOADED</span>
+            <span class="text-accent">{{ plugins.length }} LOADED</span>
           </div>
-          <div class="hero-sub">Functional. Modular. Automated.</div>
-          <h1>SYSTEM<br><span class="accent">SETUP_</span></h1>
-          <p class="hero-desc">
-            Raw configuration. Structural package management.
-            Select categories, choose plugins, execute installation.
-            No fluff. No polish. No compromise.
+          <h1 class="text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-none uppercase tracking-tight mb-4">
+            <span class="text-accent">ORI_</span>
+          </h1>
+          <p class="max-w-md text-[0.8rem] text-[#999] leading-relaxed">
+            because setting up a system is stressfullll...
           </p>
         </div>
 
         <!-- STEP BAR -->
-        <div class="steps-bar">
-          <div class="step-indicator"
-               :class="{ active: step === 'categories', completed: step !== 'categories' }">
-            /01 Categories
+        <div class="flex border-2 border-dark mt-6">
+          <div class="flex-1 py-3 px-4 text-center text-[0.7rem] uppercase tracking-[1.5px] font-bold border-r-2 border-dark transition-all duration-200"
+               :class="step === 'plugins' ? 'bg-dark text-accent' : (step === 'confirm' || step === 'install' || step === 'done') ? 'bg-accent text-dark' : 'bg-card text-muted'">
+            /01 Select Plugins
           </div>
-          <div class="step-indicator"
-               :class="{ active: step === 'plugins', completed: step === 'install' || step === 'done' }">
-            /02 Plugins
+          <div class="flex-1 py-3 px-4 text-center text-[0.7rem] uppercase tracking-[1.5px] font-bold border-r-2 border-dark transition-all duration-200"
+               :class="step === 'confirm' ? 'bg-dark text-accent' : (step === 'install' || step === 'done') ? 'bg-accent text-dark' : 'bg-card text-muted'">
+            /02 Confirm
           </div>
-          <div class="step-indicator"
-               :class="{ active: step === 'install', completed: step === 'done' }">
+          <div class="flex-1 py-3 px-4 text-center text-[0.7rem] uppercase tracking-[1.5px] font-bold transition-all duration-200"
+               :class="(step === 'install' || step === 'done') ? 'bg-dark text-accent' : 'bg-card text-muted'">
             /03 Install
           </div>
         </div>
 
-        <!-- STEP 1: CATEGORIES -->
-        <template v-if="step === 'categories'">
-          <div class="section-label">/01 Select Categories <span class="badge badge-accent" v-if="selectedCount">{{ selectedCount }} selected</span></div>
-
-          <div class="cat-grid">
-            <div v-for="(children, parent) in categoryMap" :key="parent"
-                 class="cat-group" :class="{ selected: parentSelected(parent) }">
-              <label class="cat-header" @click.prevent="toggleParent(parent, !parentSelected(parent))">
-                <input type="checkbox" :checked="parentSelected(parent)" />
-                <span class="cat-name">{{ parent }}</span>
-              </label>
-              <div class="sub-list" v-if="children.length">
-                <label v-for="sub in children" :key="sub" class="sub-item">
-                  <input type="checkbox" :value="sub" v-model="selectedProfiles" />
-                  {{ sub.split('>')[1] }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="btn-group">
-            <button class="btn btn-primary" @click="goToPlugins" :disabled="selectedCount === 0">
-              Continue → /02
-            </button>
-          </div>
-        </template>
-
-        <!-- STEP 2: PLUGINS -->
+        <!-- STEP: PLUGINS -->
         <template v-if="step === 'plugins'">
-          <div class="section-label">/02 Select Plugins <span class="badge badge-purple" v-if="pluginCount">{{ pluginCount }} selected</span></div>
+          <div class="flex gap-0 mt-0">
 
-            <div class="plugin-grid" v-if="filteredPlugins.length">
-              <div v-for="p in filteredPlugins" :key="p.name"
-                   class="plugin-card" :class="{ selected: selectedPlugins.includes(p.name) }"
-                   @click="togglePlugin(p.name)">
-                <input type="checkbox" :checked="selectedPlugins.includes(p.name)" />
-                {{ p.name }}
-                <div class="plugin-categories" v-if="p.categories && p.categories.length" style="margin-top:4px;">
-                  <span class="badge badge-accent" v-for="cat in p.categories" :key="cat">{{ cat }}</span>
+            <!-- SIDEBAR -->
+            <div class="w-[250px] min-w-[250px] bg-card border-r-2 border-dark flex flex-col overflow-y-auto max-h-[80vh] sticky top-0">
+              <div class="flex-1 overflow-y-auto p-4">
+                <!-- Mobile toggle -->
+                <button class="md:hidden mb-3 inline-flex items-center gap-2 px-4 py-2 text-[0.75rem] font-bold uppercase tracking-[2px] bg-transparent text-dark hover:bg-dark hover:text-dark-fg transition-all"
+                        @click="toggleSidebar">
+                  Filters
+                </button>
+
+                <!-- Install button pinned at bottom -->
+                <div class="mb-4">
+                  <button class="w-full py-2 px-4 text-[0.75rem] font-bold uppercase tracking-[2px] bg-accent text-dark border-2 border-dark hover:bg-dark hover:text-accent transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                          @click="goToConfirm" :disabled="pluginCount === 0">
+                    ↳ Install {{ pluginCount > 0 ? '(' + pluginCount + ')' : '' }}
+                  </button>
+                </div>
+
+                <!-- Category filters -->
+                <div class="text-[0.65rem] uppercase tracking-[2px] text-muted mb-3 flex items-center gap-2">
+                  Filters
+                  <div class="flex-1 h-px bg-dark opacity-20"></div>
+                  <button
+                    @click="toggleAllFilters"
+                    class="ml-1 px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[1px] border transition-all"
+                    :class="allSelected ? 'border-dark/40 text-muted hover:border-dark hover:text-dark' : 'border-accent text-accent hover:bg-accent hover:text-dark'"
+                  >
+                    {{ allSelected ? 'Clear' : 'All' }}
+                  </button>
+                </div>
+                <div v-for="(children, parent) in categoryMap" :key="parent"
+                     class="border-b border-dark/10 py-3 transition-colors duration-150"
+                     :class="parentSelected(parent) ? 'bg-accent/10' : 'hover:bg-[#fafaf6]'">
+                  <label class="flex items-center gap-2 cursor-pointer mb-2"
+                         @click.prevent="toggleParent(parent, !parentSelected(parent))">
+                    <input type="checkbox" class="w-[14px] h-[14px]" :checked="parentSelected(parent)" />
+                    <span class="font-bold uppercase tracking-[1.5px] text-[0.8rem]">{{ parent }}</span>
+                  </label>
+                  <div class="ml-5 flex flex-col gap-1" v-if="children.length">
+                    <label v-for="sub in children" :key="sub"
+                           class="flex items-center gap-1 text-[0.75rem] text-muted hover:text-dark cursor-pointer transition-colors">
+                      <input type="checkbox" class="sub-checkbox" :value="sub" v-model="selectedProfiles" />
+                      {{ sub.split('>')[1] }}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="mt-4">
+                  <button class="w-full py-2 px-4 text-[0.75rem] font-bold uppercase tracking-[2px] bg-accent text-dark border-2 border-dark hover:bg-dark hover:text-accent transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                          @click="goToConfirm" :disabled="pluginCount === 0">
+                    ↳ Install {{ pluginCount > 0 ? '(' + pluginCount + ')' : '' }}
+                  </button>
                 </div>
               </div>
             </div>
-          <div class="empty-state" v-else>
-            No plugins match selected categories
-          </div>
 
-          <div class="btn-group">
-            <button class="btn btn-secondary" @click="goToCategories">← /01 Back</button>
-            <button class="btn btn-primary" @click="runInstall" :disabled="pluginCount === 0">
-              Execute Install ↗
-            </button>
+            <!-- PLUGIN CONTENT -->
+            <div class="flex-1 p-4">
+              <div class="section-label text-[0.7rem] uppercase tracking-[2px] text-muted mt-6 mb-3 flex items-center gap-3">
+                /01 Select Plugins
+                <span v-if="pluginCount" class="inline-block px-2 py-0.5 text-[0.6rem] font-bold border border-accent2 text-accent2 uppercase tracking-[1px]">{{ pluginCount }} selected</span>
+              </div>
+
+              <!-- Search bar -->
+              <div class="relative mb-4">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-[0.7rem] pointer-events-none">⌕</span>
+                <input
+                  v-model="searchQuery"
+                  type="text"
+                  placeholder="Search plugins..."
+                  class="w-full pl-8 pr-4 py-2 bg-card border-2 border-dark text-[0.75rem] uppercase tracking-[1px] text-dark placeholder:text-muted placeholder:normal-case focus:outline-none focus:border-accent transition-colors"
+                />
+                <button v-if="searchQuery"
+                  @click="searchQuery = ''"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-dark text-[0.8rem] transition-colors">
+                  ✕
+                </button>
+              </div>
+
+              <div v-if="filteredPlugins.length"
+                   class="grid gap-0"
+                   style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                <div v-for="p in filteredPlugins" :key="p.name"
+                     class="border-r border-b border-dark/20 p-3 bg-card flex flex-col gap-2 cursor-pointer text-[0.75rem] uppercase tracking-[1px] transition-colors duration-150"
+                     :class="selectedPlugins.includes(p.name) ? 'bg-accent/10' : 'hover:bg-[#fafaf6]'"
+                     @click="!p.installed && togglePlugin(p.name)">
+                  <input type="checkbox" class="plugin-checkbox" :disabled="p.installed" :checked="selectedPlugins.includes(p.name)" />
+                  <span>{{ p.name }}</span>
+                  <div class="flex flex-wrap gap-1 mt-auto" v-if="p.categories && p.categories.length">
+                    <span v-for="cat in p.categories" :key="cat"
+                          class="inline-block px-2 py-0.5 text-[0.6rem] font-bold border border-accent text-accent uppercase tracking-[1px]">
+                      {{ cat }}
+                    </span>
+                  </div>
+                  <span v-if="p.installed"
+                        class="inline-block px-2 py-0.5 text-[0.6rem] font-bold border border-accent2 text-accent2 uppercase tracking-[1px] w-max">
+                    Installed
+                  </span>
+                </div>
+              </div>
+
+              <div v-else class="border-2 border-dashed border-muted p-8 text-center text-muted text-[0.8rem] uppercase tracking-[2px] mt-4">
+                {{ searchQuery ? 'No plugins match \"' + searchQuery + '\"' : 'No plugins match selected categories' }}
+              </div>
+            </div>
           </div>
         </template>
 
-        <!-- STEP 3: INSTALL -->
-        <template v-if="step === 'install'">
-          <div class="section-label">/03 Installation</div>
-          <div class="terminal">
-            <pre>{{ output }}</pre>
-          </div>
-          <div class="log-files" v-if="logs.length">
-            <div class="log-file" v-for="log in logs" :key="log.name">
-              <h4>{{ log.name }}</h4>
-              <pre>{{ log.content }}</pre>
+        <!-- STEP: INSTALL -->
+        <!-- STEP: CONFIRM -->
+        <template v-if="step === 'confirm'">
+          <div class="border-2 border-dark bg-dark text-dark-fg mt-6">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b-2 border-dark/40">
+              <div>
+                <div class="text-[0.65rem] uppercase tracking-[2px] text-muted mb-1">/02 Confirm Installation</div>
+                <h2 class="text-xl font-bold uppercase tracking-[2px] text-accent">Ready to install {{ pluginCount }} plugin{{ pluginCount === 1 ? '' : 's' }}?</h2>
+              </div>
+            </div>
+
+            <!-- Plugin list -->
+            <div class="p-6">
+              <div class="text-[0.65rem] uppercase tracking-[2px] text-muted mb-3 flex items-center gap-3">
+                Selected Plugins
+                <div class="flex-1 h-px bg-dark-fg opacity-10"></div>
+              </div>
+              <div class="grid gap-0" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+                <div v-for="name in selectedPlugins" :key="name"
+                     class="flex items-center gap-3 border border-dark-fg/10 px-4 py-3 bg-dark-fg/5">
+                  <span class="text-accent text-[0.8rem] font-bold">✓</span>
+                  <span class="text-[0.8rem] uppercase tracking-[1px] text-dark-fg">{{ name }}</span>
+                </div>
+              </div>
+
+              <!-- Warning note -->
+              <div class="mt-6 border border-accent/30 bg-accent/5 px-4 py-3 text-[0.7rem] text-muted uppercase tracking-[1px]">
+                ⚠ This will install the above packages on your system. Review the list carefully before proceeding.
+              </div>
+
+              <!-- Action buttons -->
+              <div class="flex gap-0 mt-6">
+                <button class="px-6 py-3 text-[0.75rem] font-bold uppercase tracking-[2px] border-2 border-dark-fg/30 text-dark-fg hover:bg-dark-fg hover:text-dark transition-all"
+                        @click="goToPlugins">
+                  ← Back
+                </button>
+                <button class="px-8 py-3 text-[0.75rem] font-bold uppercase tracking-[2px] bg-accent text-dark border-2 border-accent hover:bg-accent-dark transition-all"
+                        @click="runInstall">
+                  ✓ Proceed with Installation
+                </button>
+              </div>
             </div>
           </div>
-          <div class="status-bar">
+        </template>
+
+        <template v-if="step === 'install'">
+          <div class="text-[0.7rem] uppercase tracking-[2px] text-muted mt-8 mb-3 flex items-center gap-3 section-label">
+            /03 Installation
+          </div>
+          <div class="terminal-wrap border-2 border-dark">
+            <pre class="terminal-pre bg-dark text-accent p-6 text-[0.75rem] leading-relaxed h-auto overflow-y-auto max-h-[60vh] whitespace-pre-wrap break-all">{{ output }}</pre>
+          </div>
+          <div class="flex items-center justify-between px-6 py-2 border-2 border-dark border-t-0 bg-dark text-accent text-[0.65rem] uppercase tracking-[1.5px]">
             <span><span class="status-dot"></span> Process Running</span>
             <span>Plugins: {{ pluginCount }}</span>
           </div>
         </template>
 
-        <!-- DONE -->
-
+        <!-- STEP: DONE -->
         <template v-if="step === 'done'">
-            <div class="done-box">
-              <h2>✓ COMPLETE_</h2>
-              <p>All systems operational. Installation finished.</p>
-              <button class="btn btn-primary" @click="reset">Reset System ↗</button>
+          <div class="border-2 border-accent bg-dark text-dark-fg p-6 mt-6">
+            <!-- Header row -->
+            <div class="flex flex-row justify-between items-center mb-4">
+              <div>
+                <h2 class="text-2xl font-bold uppercase tracking-[3px] text-accent mb-1">✓ COMPLETE</h2>
+                <p class="text-[0.7rem] text-muted">Please check the logs below for further information and configuration steps if possible</p>
+              </div>
+              <button class="inline-flex items-center gap-2 px-6 py-2 text-[0.75rem] font-bold uppercase tracking-[2px] border-2 border-dark-fg bg-accent text-dark hover:bg-dark hover:text-accent hover:border-accent transition-all"
+                      @click="reset">
+                Return ↗
+              </button>
             </div>
-            <div class="tab-bar">
-              <button class="btn" :class="{ 'btn-primary': !showLogs }" @click="showLogs = false">Summary</button>
-              <button class="btn" :class="{ 'btn-primary': showLogs }" @click="showLogs = true">Logs</button>
-            </div>
-            <div v-if="!showLogs">
-              <p>Installation completed successfully.</p>
-            </div>
-            <div v-else class="log-files">
-              <div class="log-file" v-for="log in logs" :key="log.name">
-                <h4>{{ log.name }}</h4>
-                <pre>{{ log.content }}</pre>
+
+            <!-- Log files -->
+            <div class="flex flex-col gap-3 mt-4">
+              <div v-for="log in logs" :key="log.name" class="border-2 border-dark/40">
+                <div class="text-[0.7rem] uppercase tracking-[1.5px] text-accent2 px-4 py-2 border-b border-dark/20 bg-dark/20 font-bold">
+                  {{ log.name }}
+                </div>
+                <div class="terminal-wrap">
+                  <pre class="bg-dark text-accent p-4 text-[0.75rem] leading-relaxed overflow-x-auto whitespace-pre-wrap break-all">{{ log.content }}</pre>
+                </div>
               </div>
             </div>
+          </div>
         </template>
 
-
       </div>
-    `,
-  };
+      `,
+    };
 
-  createApp(App).mount('#app');
-</script>
+    createApp(App).mount('#app');
+  </script>
 </body>
+
 </html>
