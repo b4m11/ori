@@ -6,7 +6,7 @@ This tool provides a beautiful web-based UI and a robust CLI to bootstrap your d
 
 ## Features
 
-- **Web UI & CLI:** Run it in the terminal or launch the sleek web UI to select the plugins you need.
+- **Web UI & CLI:** Run it in the terminal or launch the sleek web UI to select the programs you need.
 - **Cross-Platform:** Works seamlessly on Windows, macOS, and Linux, detecting your platform and using the appropriate package managers (like `brew`, `apt`, `snap`, `winget`, `choco`).
 - **Real-Time Streaming:** Installation logs are streamed live to both the terminal and the web browser.
 - **Extensible Plugin System:** All installations are handled via a modular plugin architecture.
