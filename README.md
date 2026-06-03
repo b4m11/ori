@@ -1,4 +1,4 @@
-# ORI
+# IFA
 
 A cross-platform, automated developer environment setup tool.
 
