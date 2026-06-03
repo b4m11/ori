@@ -66,7 +66,8 @@ from core.platform_detect import get_platform_info
 from typing import List
 
 class MyToolPlugin(PluginBase):
-    name = "my_tool"
+    name = "my_tool" # this is the command name that runs your
+    full_name = "My Tool"
     description = "Installs My Tool"
     depends_on: List[str] = [] # List dependencies here
     categories: List[str] = ["tool>utility"]
