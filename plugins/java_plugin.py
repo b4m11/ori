@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class JavaPlugin(PluginBase):
+    full_name = "Java"
     name = "java"
     description = "Installs Java OpenJDK"
     depends_on: List[str] = []

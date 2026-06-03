@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class MongodbServerPlugin(PluginBase):
+    full_name = "Mongo DB Server"
     name = "mongodb_server"
     description = "Installs MongoDB database server"
     depends_on: List[str] = []

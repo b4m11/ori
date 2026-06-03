@@ -8,6 +8,7 @@ from core.platform_detect import get_platform_info
 
 class AzureCliPlugin(PluginBase):
     name = "azure_cli"
+    full_name = "Azure CLI"
     description = "Installs Microsoft Azure CLI"
     depends_on: List[str] = []
     categories: List[str] = ["cloud", "devops"]

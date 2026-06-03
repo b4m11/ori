@@ -5,6 +5,7 @@ from typing import List
 from core.platform_detect import get_platform_info
 
 class SnapPlugin(PluginBase):
+    full_name = "Snapcraft"
     name = "snap"
     description = "Installs snap"
     depends_on: List[str] = []

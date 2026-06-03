@@ -5,6 +5,7 @@ from core.platform_detect import get_platform_info
 from typing import List
 
 class VsCodePlugin(PluginBase):
+    full_name = "VS Code"
     name = "code"
     description = "Installs VSCODE on Windows"
     depends_on: List[str] = []

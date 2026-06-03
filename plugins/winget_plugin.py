@@ -8,6 +8,7 @@ from core.plugin_base import PluginBase
 from typing import List
 
 class WingetPlugin(PluginBase):
+    full_name = "Winget"
     name = "winget"
     description = "Installs Winget package manager on Windows"
     depends_on: List[str] = []

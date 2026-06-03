@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class GcpCliPlugin(PluginBase):
+    full_name = "Google Cloud CLI"
     name = "gcp_cli"
     description = "Installs Google Cloud Platform (GCP) CLI"
     depends_on: List[str] = []

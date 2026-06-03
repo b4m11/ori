@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class GoPlugin(PluginBase):
+    full_name = "Golang"
     name = "go"
     description = "Installs Go programming language"
     depends_on: List[str] = []

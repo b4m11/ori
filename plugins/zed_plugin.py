@@ -4,6 +4,7 @@ from core.platform_detect import get_platform_info
 from typing import List
 
 class ZedPlugin(PluginBase):
+    full_name = "Zed IDE"
     name = "zed"
     description = "Installs zed on Windows"
     depends_on: List[str] = []

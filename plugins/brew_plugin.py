@@ -11,6 +11,7 @@ import os
 
 
 class BrewPlugin(PluginBase):
+    full_name = "Homebrew"
     name = "brew"
     description = "Installs Homebrew package manager on macOS."
     categories: List[str] = ["package_manager"]

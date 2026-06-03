@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class NxPlugin(PluginBase):
+    full_name = "NX"
     name = "nx"
     description = "Installs Nx build system"
     depends_on: List[str] = ["node"]

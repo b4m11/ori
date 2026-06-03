@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class MysqlServerPlugin(PluginBase):
+    full_name = "MySQL Server"
     name = "mysql_server"
     description = "Installs MySQL database server"
     depends_on: List[str] = []

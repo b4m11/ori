@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class PostmanPlugin(PluginBase):
+    full_name = "Postman"
     name = "postman"
     description = "Installs Postman API client"
     depends_on: List[str] = []

@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class AwsCliPlugin(PluginBase):
+    full_name = "AWS CLI"
     name = "aws_cli"
     description = "Installs Amazon Web Services (AWS) CLI"
     depends_on: List[str] = []
@@ -28,7 +29,7 @@ class AwsCliPlugin(PluginBase):
 
         if os_name == "mac":
             return [
-                'curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg',
+                'curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"',
                 'sudo installer -pkg AWSCLIV2.pkg -target /'
             ]
             

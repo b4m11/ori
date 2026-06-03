@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class GitPlugin(PluginBase):
+    full_name = "Git"
     name = "git"
     description = "Installs Git version control system"
     depends_on: List[str] = []

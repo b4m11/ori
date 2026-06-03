@@ -7,6 +7,7 @@ from core.plugin_base import PluginBase
 from core.platform_detect import get_platform_info
 
 class PulumiPlugin(PluginBase):
+    full_name = "Pulumi"
     name = "pulumi"
     description = "Installs Pulumi"
     depends_on: List[str] = []
