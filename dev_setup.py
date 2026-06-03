@@ -287,6 +287,13 @@ def main() -> int:
                 filtered_plugins.append(p)
         available_plugins = filtered_plugins
 
+        # Exclude plugins whose primary executable is already installed
+        not_installed_plugins = [
+            p for p in available_plugins
+            if not shutil.which(p.name)
+        ]
+        available_plugins = not_installed_plugins
+
         all_plugin_names = [p.name for p in available_plugins]
         # Run curses UI for plugin selection
         try:

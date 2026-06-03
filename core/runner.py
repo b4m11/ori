@@ -72,13 +72,8 @@ def run_cmd(args: List[str], *, capture_output: bool = False, check: bool = True
     try:
         while process.poll() is None:
             if stop_event.is_set():
-                process.terminate()
-                try:
-                    process.wait(timeout=2)
-                except subprocess.TimeoutExpired:
-                    process.kill()
+                process.kill()
                 reader_thread.join()
-                raise KeyboardInterrupt("Process aborted by user via stop_event")
             time.sleep(0.1)
             
         reader_thread.join()

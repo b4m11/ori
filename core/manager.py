@@ -103,7 +103,9 @@ class SetupManager:
             finally:
                 # Restore original stdout/stderr
                 sys.stdout, sys.stderr = original_stdout, original_stderr
+            
             return success
+        stop_event.clear()
 
     def run(self) -> None:
         """Run all selected plugins respecting package‑manager dependencies.
