@@ -83,10 +83,8 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
     # ---------------------------------------------------------------------
     def _gather_profiles(self) -> list:
         # Re‑use the same logic as in dev_setup.py to collect categories
-        from core.manager import SetupManager
-        sm = SetupManager(self.manager.config)
         all_cats = set()
-        for p in sm.all_plugins:
+        for p in self.manager.all_plugins:
             all_cats.update(getattr(p, "categories", []))
         return sorted(all_cats)
 
