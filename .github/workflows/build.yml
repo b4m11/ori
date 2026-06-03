@@ -35,35 +35,35 @@ jobs:
         if [ "${{ runner.os }}" = "Windows" ]; then
           SEP=";"
         fi
-        pyinstaller --name ori --onefile --add-data "web_ui${SEP}web_ui" --add-data "plugins${SEP}plugins" --add-data "core${SEP}core" dev_setup.py
+        pyinstaller --name ifa --onefile --add-data "web_ui${SEP}web_ui" --add-data "plugins${SEP}plugins" --add-data "core${SEP}core" dev_setup.py
       shell: bash
 
     - name: Rename Artifact for Windows
       if: runner.os == 'Windows'
-      run: mv dist/ori.exe dist/ori-windows.exe
+      run: mv dist/ifa.exe dist/ifa-windows.exe
       shell: bash
 
     - name: Rename Artifact for Linux
       if: runner.os == 'Linux'
-      run: mv dist/ori dist/ori-linux
+      run: mv dist/ifa dist/ifa-linux
       shell: bash
 
     - name: Rename Artifact for macOS
       if: runner.os == 'macOS'
-      run: mv dist/ori dist/ori-macos
+      run: mv dist/ifa dist/ifa-macos
       shell: bash
 
     - name: Upload artifact to Actions
       uses: actions/upload-artifact@v4
       with:
         name: dev_setup-${{ runner.os }}
-        path: dist/ori*
+        path: dist/ifa*
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: latest
         name: Latest Build
-        files: dist/ori*
+        files: dist/ifa*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

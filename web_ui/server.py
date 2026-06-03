@@ -58,7 +58,6 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
             body = self.rfile.read(length).decode()
             data = json.loads(body) if body else {}
             # Store selection in manager config
-            # self.manager.config["selected_plugins"] = data.get("plugins", [])
             self.manager.plugins = [p for p in self.manager.all_plugins if p.name in data.get("plugins", [])]
 
             # Run installation in background thread
@@ -96,7 +95,8 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
         plugins = []
         for p in self.manager.all_plugins:
             plugins.append({
-                "name": p.name, 
+                "name": p.full_name,
+                "command": p.name,
                 "categories": getattr(p, "categories", []),
                 "installed": shutil.which(p.name) is not None
             })
@@ -119,6 +119,7 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
                     original_stdout.flush()
                 except:
                     pass
+        
         sys.stdout = sys.stderr = QueueWriter()
         try:
             self.manager.run()

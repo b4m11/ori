@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ORI_ //</title>
-  <meta name="description" content="ORI_ dev setup system configurator — select plugins and install your development environment." />
+  <title>IFA_ //</title>
+  <meta name="description"
+    content="IFA_ dev setup system configurator — select plugins and install your development environment." />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
@@ -43,8 +44,16 @@
 
   <style>
     /* Base */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
       height: 100%;
       background: #f0f0ec;
       font-family: 'Space Mono', 'Courier New', monospace;
@@ -54,9 +63,17 @@
     }
 
     /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0a0a; }
-    ::-webkit-scrollbar-thumb { background: #32cd32; }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #32cd32;
+    }
 
     /* Checkbox styling */
     input[type="checkbox"] {
@@ -68,10 +85,12 @@
       position: relative;
       flex-shrink: 0;
     }
+
     input[type="checkbox"]:checked {
       background: #32cd32;
       border-color: #32cd32;
     }
+
     input[type="checkbox"]:checked::after {
       content: '✓';
       position: absolute;
@@ -92,13 +111,24 @@
       margin-right: 0.5rem;
       animation: pulse2 2s ease-in-out infinite;
     }
+
     @keyframes pulse2 {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
     }
 
     /* Terminal ::before label */
-    .terminal-wrap { position: relative; }
+    .terminal-wrap {
+      position: relative;
+    }
+
     .terminal-wrap::before {
       content: '> TERMINAL_OUTPUT';
       display: block;
@@ -121,8 +151,15 @@
     }
 
     /* Vue fade transition */
-    .fade-enter-active, .fade-leave-active { transition: opacity 0.2s; }
-    .fade-enter-from, .fade-leave-to { opacity: 0; }
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.2s;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to {
+      opacity: 0;
+    }
 
     /* Sub-item checkbox (smaller, purple checked) */
     .sub-checkbox {
@@ -136,10 +173,12 @@
       flex-shrink: 0;
       position: relative;
     }
+
     .sub-checkbox:checked {
       background: #7b61ff;
       border-color: #7b61ff;
     }
+
     .sub-checkbox:checked::after {
       content: '✓';
       position: absolute;
@@ -162,10 +201,12 @@
       flex-shrink: 0;
       position: relative;
     }
+
     .plugin-checkbox:checked {
       background: #32cd32;
       border-color: #32cd32;
     }
+
     .plugin-checkbox:checked::after {
       content: '✓';
       position: absolute;
@@ -179,10 +220,9 @@
 </head>
 
 <body class="bg-bg font-mono text-dark text-[13px] leading-relaxed">
-
   <!-- TOP BAR -->
   <div class="flex items-center justify-between px-6 py-3 border-b-2 border-dark bg-card">
-    <div class="font-bold text-base tracking-[2px] uppercase">✦ DEV<span class="text-accent2">_</span>SETUP</div>
+    <div class="font-bold text-base tracking-[2px] uppercase">✦ IFA<span class="text-accent2">_</span></div>
     <nav class="flex gap-6 text-[0.75rem] uppercase tracking-[1.5px] text-muted">
       <a href="#" class="text-muted hover:text-dark transition-colors no-underline">/ Categories</a>
       <a href="#" class="text-muted hover:text-dark transition-colors no-underline">/ Plugins</a>
@@ -218,7 +258,8 @@
         const sidebarOpen = ref(true);
         const searchQuery = ref('');
         const isLoading = ref(true);
-        const step = ref('plugins'); // start directly at plugins
+        const step = ref('plugins');
+        const selectedLog = ref(null);
 
         const categoryMap = computed(() => {
           const map = {};
@@ -289,6 +330,7 @@
         const goToPlugins = () => { step.value = 'plugins'; };
         const goToCategories = () => { step.value = 'categories'; };
         const goToConfirm = () => { step.value = 'confirm'; };
+        const selectLog = (log) => { console.log(log); selectedLog.value = log }
 
         const runInstall = async () => {
           step.value = 'install';
@@ -334,12 +376,12 @@
         };
 
         const reset = async () => {
-          await loadData();
           selectedProfiles.value = [];
           selectedPlugins.value = [];
           output.value = '';
           logs.value = [];
           step.value = 'plugins';
+          await loadData();
         };
 
         const togglePlugin = (name) => {
@@ -347,6 +389,7 @@
           if (idx >= 0) selectedPlugins.value.splice(idx, 1);
           else selectedPlugins.value.push(name);
         };
+
         const toggleSidebar = () => {
           sidebarOpen.value = !sidebarOpen.value;
         };
@@ -381,7 +424,7 @@
           toggleParent, filteredPlugins, selectedCount, pluginCount,
           goToPlugins, goToCategories, goToConfirm, runInstall, reset, togglePlugin, showLogs,
           sidebarOpen, toggleSidebar, allSelected, toggleAllFilters, searchQuery, killInstallation,
-          isLoading,
+          isLoading, selectLog, selectedLog
         };
       },
       template: `
@@ -396,7 +439,7 @@
             <span class="text-accent">{{ plugins.length }} LOADED</span>
           </div>
           <h1 class="text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-none uppercase tracking-tight mb-4">
-            <span class="text-accent">ORI_</span>
+            <span class="text-accent">IFA_</span>
           </h1>
           <p class="max-w-md text-[0.8rem] text-[#999] leading-relaxed">
             because setting up a system is stressfullll...
@@ -487,12 +530,12 @@
 
               <!-- Search bar -->
               <div class="relative mb-4">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-[0.7rem] pointer-events-none">⌕</span>
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-[1.8rem] text-[#999] pointer-events-none">⌕</span>
                 <input
                   v-model="searchQuery"
                   type="text"
                   placeholder="Search plugins..."
-                  class="w-full pl-8 pr-4 py-2 bg-card border-2 border-dark text-[0.75rem] uppercase tracking-[1px] text-dark placeholder:text-muted placeholder:normal-case focus:outline-none focus:border-accent transition-colors"
+                  class="w-full pl-9 pr-4 py-2 bg-card border-2 border-dark text-[0.75rem] uppercase tracking-[1px] text-dark placeholder:text-muted placeholder:normal-case focus:outline-none focus:border-accent transition-colors"
                 />
                 <button v-if="searchQuery"
                   @click="searchQuery = ''"
@@ -510,15 +553,17 @@
                    style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
                 <div v-for="p in filteredPlugins" :key="p.name"
                      class="border-r border-b border-dark/20 p-3 bg-card flex flex-col gap-2 cursor-pointer text-[0.75rem] uppercase tracking-[1px] transition-colors duration-150 relative"
-                     :class="selectedPlugins.includes(p.name) ? 'bg-accent/10' : 'hover:bg-[#fafaf6]'"
-                     @click="!p.installed && togglePlugin(p.name)">
-                  <input type="checkbox" class="plugin-checkbox" :disabled="p.installed" :checked="selectedPlugins.includes(p.name)" />
+                     :class="selectedPlugins.includes(p.command) ? 'bg-accent/10' : 'hover:bg-[#fafaf6]'"
+                     @click="!p.installed && togglePlugin(p.command)">
                   <div class="flex items-center gap-2">
                     <span v-if="p.installed"
-                          class="inline-block px-1.5 py-0.5 text-[0.55rem] font-bold border border-accent2 text-accent2 uppercase tracking-[1px] leading-none">
+                      class="inline-block px-1.5 py-0.5 text-[0.55rem] font-bold border border-accent2 text-accent2 uppercase tracking-[1px] leading-none">
                       ✓ Installed
                     </span>
-                    <span>{{ p.name }}</span>
+                    <input v-else type="checkbox" class="plugin-checkbox" :disabled="p.installed" :checked="selectedPlugins.includes(p.command)" />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-lg text-semibold">{{ p.name }}</span>
                   </div>
                   <div class="flex flex-wrap gap-1 mt-auto" v-if="p.categories && p.categories.length">
                     <span v-for="cat in p.categories" :key="cat"
@@ -536,7 +581,6 @@
           </div>
         </template>
 
-        <!-- STEP: INSTALL -->
         <!-- STEP: CONFIRM -->
         <template v-if="step === 'confirm'">
           <div class="border-2 border-dark bg-dark text-dark-fg mt-6">
@@ -581,10 +625,14 @@
             </div>
           </div>
         </template>
-
+        
+        <!-- STEP: INSTALL -->
         <template v-if="step === 'install'">
-          <div class="text-[0.7rem] uppercase tracking-[2px] text-muted mt-8 mb-3 flex items-center gap-3 section-label">
-            /03 Installation
+          <div class="w-full text-[0.7rem] uppercase tracking-[2px] text-muted mt-8 mb-3 flex items-center gap-3">
+            <div class="section-label">/03 Installation</div>
+            <button class="ml-auto px-3 py-1 border border-accent hover:bg-accent hover:text-dark transition-colors" @click="killInstallation">
+              🛑 Stop Installation
+            </button>
           </div>
           <div class="terminal-wrap border-2 border-dark">
             <pre class="terminal-pre bg-dark text-accent p-6 text-[0.75rem] leading-relaxed h-auto overflow-y-auto max-h-[60vh] whitespace-pre-wrap break-all">{{ output }}</pre>
@@ -592,9 +640,6 @@
           <div class="flex items-center justify-between px-6 py-2 border-2 border-dark border-t-0 bg-dark text-accent text-[0.65rem] uppercase tracking-[1.5px]">
             <span class="flex items-center gap-4">
               <span><span class="status-dot"></span> Process Running</span>
-              <button class="px-3 py-1 border border-accent hover:bg-accent hover:text-dark transition-colors" @click="killInstallation">
-                🛑 Stop Installation
-              </button>
             </span>
             <span>Plugins: {{ pluginCount }}</span>
           </div>
@@ -603,43 +648,58 @@
         <!-- STEP: DONE -->
         <template v-if="step === 'done'">
           <div class="border-2 border-accent bg-dark text-dark-fg p-6 mt-6">
-            <!-- Header row -->
             <div class="flex flex-row justify-between items-center mb-4">
               <div>
                 <h2 class="text-2xl font-bold uppercase tracking-[3px] text-accent mb-1">✓ COMPLETE</h2>
-                <p class="text-[0.7rem] text-muted">Please check the logs below for further information and configuration steps if possible</p>
+                <p class="text-[0.7rem] text-muted text-[#999]">Please check the logs below for further information and configuration steps if possible</p>
               </div>
-              <button class="inline-flex items-center gap-2 px-6 py-2 text-[0.75rem] font-bold uppercase tracking-[2px] border-2 border-dark-fg bg-accent text-dark hover:bg-dark hover:text-accent hover:border-accent transition-all"
-                      @click="reset">
+              <button class="inline-flex items-center gap-2 px-6 py-2 text-[0.75rem] font-bold uppercase tracking-[2px] text-dark bg-dark text-accent border-accent transition-all hover:underline underline-offset-2 decoration-2"
+                @click="reset">
                 Return ↗
               </button>
             </div>
 
-            <!-- Log files -->
-            <div class="flex flex-col gap-3 mt-4">
-              <details v-for="log in logs" :key="log.name" class="border-2 border-dark/40 group">
-                <summary class="text-[0.75rem] uppercase tracking-[1.5px] px-4 py-3 border-b border-dark/20 bg-dark/20 font-bold cursor-pointer list-none flex justify-between items-center outline-none hover:bg-dark/30 transition-colors">
-                  <div class="flex items-center gap-3">
-                    <span v-if="log.content.includes('[error]')" class="inline-block px-2 py-0.5 text-[0.6rem] font-bold bg-[#ff4444] text-white uppercase tracking-[1px] leading-none">
-                      Failed
+            <!-- Log files with two column layout -->
+            <div class="flex gap-4 mt-4">
+              <!-- Left: log list -->
+              <div class="w-1/3 overflow-y-auto border-r border-dark/30 pr-2">
+                <ul class="space-y-1">
+                  <li 
+                    v-for="log in logs" 
+                    :key="log.name" 
+                    @click="selectLog(log)" 
+                    class="cursor-pointer p-2 rounded flex items-center justify-between"
+                  >
+                    <span 
+                      :class="{ 'line-through': selectedLog && selectedLog.name === log.name}" 
+                      class="text-accent2 decoration-inherit"
+                    >
+                        {{ log.name.replace('.log','') }}
                     </span>
-                    <span v-else class="inline-block px-2 py-0.5 text-[0.6rem] font-bold bg-accent text-dark uppercase tracking-[1px] leading-none">
-                      Success
-                    </span>
-                    <span class="text-accent2">{{ log.name.replace('.log', '') }}</span>
-                  </div>
-                  <span class="text-[0.8rem] group-open:rotate-180 transition-transform text-accent2">▼</span>
-                </summary>
-                <div class="terminal-wrap">
-                  <pre class="bg-dark text-accent p-4 text-[0.75rem] leading-relaxed overflow-x-auto whitespace-pre-wrap break-all m-0">{{ log.content }}</pre>
+                    <span v-if="log.content.includes('[error]')" class="inline-block px-2 py-0.5 text-[0.6rem] font-bold bg-[#ff4444] text-white uppercase tracking-[1px]">Failed</span>
+                    <span v-else class="inline-block px-2 py-0.5 text-[0.6rem] font-bold bg-accent text-dark uppercase tracking-[1px]">Success</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Right: selected log content -->
+              <div class="flex-1 overflow-y-auto">
+                <div v-if="selectedLog" class="terminal-wrap">
+                  <pre class="bg-dark text-accent p-4 text-[0.75rem] leading-relaxed whitespace-pre-wrap break-all m-0">
+                    {{ selectedLog.content }}
+                  </pre>
                 </div>
-              </details>
+                <div v-else class="text-muted text-center py-8">
+                  Select a log to view its content
+                </div>
+              </div>
             </div>
+          </div>
         </template>
 
         <!-- Footer -->
         <div class="mt-12 text-center text-[0.65rem] uppercase tracking-[2px] text-muted">
-          Built by <a href="https://github.com/c4pt0r" target="_blank" class="text-accent hover:underline">c4pt0r</a>
+          Built by <a href="https://github.com/b4m11" target="_blank" class="text-accent hover:underline">b4m11</a>
         </div>
       </div>
       `,
