@@ -4,17 +4,15 @@ Ensures safe subprocess handling via core.runner and respects dry‑run mode.
 """
 
 from __future__ import annotations
-
 import sys
 import shutil
 from pathlib import Path
 from typing import List, Dict, Any
-
+from .platform_detect import get_platform_info
 from .config import load_config, DEFAULT_CONFIG
 from .registry import load_all_plugins
 from .runner import set_dry_run, run_cmd, stop_event
-import sys
-from pathlib import Path
+
 
 class DualWriter:
     """Writes to both a file and the original stdout (QueueWriter)."""
@@ -59,7 +57,6 @@ class SetupManager:
             # No explicit selection – run all discovered plugins
             self.plugins = self.all_plugins
         # Initialize output directory for per‑plugin logs
-        from pathlib import Path
         self.output_dir = Path(self.config.get("output_dir", "plugin_outputs"))
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -117,7 +114,6 @@ class SetupManager:
         4. Record executables without installer plugins in a "could not process" list.
         5. Execute plugins in order, tracking successful vs failed installations.
         """
-        from .platform_detect import get_platform_info
         info = get_platform_info()
         os_name = info["os"]
         pkg_mgr = info["pkg_manager"]

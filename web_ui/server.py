@@ -149,7 +149,6 @@ class DevSetupHandler(SimpleHTTPRequestHandler):
                             os.remove(os.path.join(log_dir, f))
             except Exception as e_cleanup:
                 print(f"[WARN] Failed to clean up log files: {e_cleanup}", file=sys.stderr)
-            # Signal end of stream
 
     def _handle_sse(self):
         self.send_response(HTTPStatus.OK)

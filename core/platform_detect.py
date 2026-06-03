@@ -2,7 +2,6 @@ import sys
 import shutil
 from typing import Dict
 
-
 def get_platform_info() -> Dict[str, str]:
     """Detect the current operating system and available package managers.
 
