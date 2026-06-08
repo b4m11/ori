@@ -1,8 +1,11 @@
-# IFA
+# IFA (alpha)
 
 A cross-platform, automated developer environment setup tool.
 
 This tool provides a beautiful web-based UI and a robust CLI to bootstrap your development environment. It installs essential tools, package managers, programming languages, and IDEs effortlessly across Linux, macOS, and Windows.
+
+## N.B.
+this software is still in alpha, and things may break. please create a github issue if you run into any problems. list the 
 
 ## Features
 
