@@ -58,7 +58,7 @@ jobs:
             "machine": "basicLinux",
             "location": "WestUs2"
           }
-EOF
+          EOF
           )"
 
           echo "Raw response:"
