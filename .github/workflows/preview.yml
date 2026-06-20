@@ -1,4 +1,3 @@
-# .github/workflows/create-codespace.yml
 name: Create Codespace and print URL (GitHub App)
 
 on:
