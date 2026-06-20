@@ -1,0 +1,81 @@
+# .github/workflows/create-codespace.yml
+name: Create Codespace and print URL (GitHub App)
+
+on:
+  pull_request:
+    types: [labeled]
+
+env:
+  FORWARDED_PORT: 3000
+
+jobs:
+  create-codespace:
+    if: github.event.label.name == 'run-codespace'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read        # required for the app token exchange
+      id-token: write       # required by some app-token actions
+      # no codespaces permission needed here; the app token carries that
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Generate GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CODESPACES_APP_ID }}
+          private-key: ${{ secrets.CODESPACES_APP_PRIVATE_KEY }}
+          # optional: if the app is installed in many places and discovery fails, add:
+          # owner: your-org-name
+          # repositories: your-repo-name
+
+      - name: Create Codespace via API using app token
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y jq
+          fi
+
+          OWNER="${GITHUB_REPOSITORY%%/*}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+
+          echo "Creating codespace for ${OWNER}/${REPO} as GitHub App installation..."
+
+          RESPONSE="$(curl -sS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/${OWNER}/${REPO}/codespaces" \
+            -d @- <<EOF
+          {
+            "machine": "basicLinux",
+            "location": "WestUs2"
+          }
+EOF
+          )"
+
+          echo "Raw response:"
+          echo "${RESPONSE}"
+
+          CODESPACE_NAME="$(echo "${RESPONSE}" | jq -r '.name')"
+
+          if [ -z "${CODESPACE_NAME}" ] || [ "${CODESPACE_NAME}" = "null" ]; then
+            echo "Failed to create Codespace. Response above."
+            exit 1
+          fi
+
+          FORWARDED_URL="https://${CODESPACE_NAME}-${FORWARDED_PORT}.app.github.dev"
+
+          echo "Codespace name: ${CODESPACE_NAME}"
+          echo "Expected forwarded URL for port ${FORWARDED_PORT}:"
+          echo "${FORWARDED_URL}"
+
+          echo "codespace_name=${CODESPACE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "forwarded_url=${FORWARDED_URL}" >> "$GITHUB_OUTPUT"
