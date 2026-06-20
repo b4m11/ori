@@ -54,8 +54,7 @@ jobs:
             "https://api.github.com/repos/${OWNER}/${REPO}/codespaces" \
             -d @- <<EOF
           {
-            "machine": "basicLinux",
-            "location": "WestUs2"
+            "machine": "basicLinux"
           }
           EOF
           )"
