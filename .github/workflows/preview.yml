@@ -1,16 +1,14 @@
 # .github/workflows/create-codespace.yml
 name: Create Codespace and print URL (GitHub App)
 
-on:
-  pull_request:
-    types: [labeled]
+on: push
 
 env:
   FORWARDED_PORT: 3000
 
 jobs:
   create-codespace:
-    # if: github.event.label.name == 'run-codespace'
+    if: github.event.label.name == 'run-codespace'
     runs-on: ubuntu-latest
 
     permissions:
