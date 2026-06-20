@@ -16,6 +16,7 @@ jobs:
     permissions:
       contents: read        # required for the app token exchange
       id-token: write       # required by some app-token actions
+      workspaces: write
       # no codespaces permission needed here; the app token carries that
 
     steps:
