@@ -10,7 +10,7 @@ env:
 
 jobs:
   create-codespace:
-    if: github.event.label.name == 'run-codespace'
+    # if: github.event.label.name == 'run-codespace'
     runs-on: ubuntu-latest
 
     permissions:
@@ -29,8 +29,7 @@ jobs:
           app-id: ${{ secrets.CODESPACES_APP_ID }}
           private-key: ${{ secrets.CODESPACES_APP_PRIVATE_KEY }}
           # optional: if the app is installed in many places and discovery fails, add:
-          # owner: your-org-name
-          # repositories: your-repo-name
+          repositories: ori
 
       - name: Create Codespace via API using app token
         env:
