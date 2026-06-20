@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      codespaces: write
       contents: read        # required for the app token exchange
       id-token: write       # required by some app-token actions
 
