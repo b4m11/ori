@@ -46,7 +46,7 @@ jobs:
 
           echo "Creating codespace for ${OWNER}/${REPO} as GitHub App installation..."
 
-          RESPONSE="$(curl -D -sS -X POST \
+          RESPONSE="$(curl -i -sS -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${TOKEN}" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
