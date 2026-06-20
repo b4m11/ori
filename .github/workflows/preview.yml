@@ -22,9 +22,9 @@ jobs:
 
       - name: Generate GitHub App installation token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ secrets.CODESPACES_APP_ID }}
+          client-id: ${{ secrets.CODESPACES_APP_ID }}
           private-key: ${{ secrets.CODESPACES_APP_PRIVATE_KEY }}
           permission-codespaces: write
           # optional: if the app is installed in many places and discovery fails, add:
