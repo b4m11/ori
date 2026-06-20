@@ -1,7 +1,9 @@
 # .github/workflows/create-codespace.yml
 name: Create Codespace and print URL (GitHub App)
 
-on: push
+on:
+  pull_request:
+    types: [labeled]
 
 env:
   FORWARDED_PORT: 3000
