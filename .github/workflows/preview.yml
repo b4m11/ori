@@ -32,9 +32,9 @@ jobs:
             --branch "${BRANCH}" \
             --machine basicLinux32gb 2>&1)"; then
 
-            gh codespace ports forward --repo-owner "${OWNER}" --repo "${REPO}" 80:${FORWARDED_PORT}
-            
-            gh codespace ports visibility --repo-owner "${OWNER}" --repo "${REPO}" 80:public
+            gh codespace ports forward --codespace "${RESULT}" 80:${FORWARDED_PORT}
+
+            gh codespace ports visibility --codespace "${RESULT}" 80:public
 
             CODESPACE_NAME="${RESULT}"
             FORWARDED_URL="https://${CODESPACE_NAME}-${FORWARDED_PORT}.app.github.dev"
