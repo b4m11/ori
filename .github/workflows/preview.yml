@@ -78,7 +78,7 @@ jobs:
 
           echo "Checking for existing codespace for ${OWNER}/${REPO} on branch ${BRANCH}..."
 
-          CODESPACE_NAME="$(gh codespace list --limit 100 --json repository,name,gitStatus --jq ".[] | select(.repository == \"${OWNER}/${REPO}\" and .gitStatus.branch == \"${BRANCH}\") | .name")"
+          CODESPACE_NAME="$(gh codespace list --repo "${OWNER}/${REPO}" --limit 100 --json repository,name,gitStatus --jq ".[] | select((.repository.fullName == \"${OWNER}/${REPO}\" or .repository == \"${OWNER}/${REPO}\") and .gitStatus != null and (.gitStatus.ref == \"refs/heads/${BRANCH}\" or .gitStatus.ref == \"${BRANCH}\")) | .name")"
 
           if [ -n "${CODESPACE_NAME}" ]; then
             echo "Found codespace(s) to delete:"
