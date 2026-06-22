@@ -40,7 +40,7 @@ jobs:
             CODESPACE_NAME="${RESULT}"
             FORWARDED_URL="https://${CODESPACE_NAME}-${FORWARDED_PORT}.app.github.dev"
 
-            gh pr comment "${PR_NUMBER}" --repo "${OWNER}/${REPO}" --body "## ✅ Preview Codespace Ready
+            BODY="## ✅ Preview Codespace Ready
 
             | | |
             |---|---|
@@ -64,6 +64,8 @@ jobs:
             \`\`\`
 
             </details>"
+
+            gh pr comment "${PR_NUMBER}" --repo "${OWNER}/${REPO}" --body "${BODY}"
 
             exit 1
           fi
