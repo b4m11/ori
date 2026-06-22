@@ -34,8 +34,10 @@ jobs:
 
             echo "${RESULT}"
             gh codespace ports forward --codespace "${RESULT}" 80:${FORWARDED_PORT}
+            echo "${RESULT}"
 
             gh codespace ports visibility --codespace "${RESULT}" 80:public
+            echo "${RESULT}"
 
             CODESPACE_NAME="${RESULT}"
             FORWARDED_URL="https://${CODESPACE_NAME}-${FORWARDED_PORT}.app.github.dev"
