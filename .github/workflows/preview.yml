@@ -57,6 +57,7 @@ jobs:
             BODY="
             ## ❌ Codespace Creation Failed
             The codespace for branch \`${BRANCH}\` could not be created.
+            ${RESULT}
             "
 
             gh pr comment "${PR_NUMBER}" --repo "${OWNER}/${REPO}" --body "${BODY}"
