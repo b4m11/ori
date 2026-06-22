@@ -32,6 +32,7 @@ jobs:
             --branch "${BRANCH}" \
             --machine basicLinux32gb 2>&1)"; then
 
+            echo "${RESULT}"
             gh codespace ports forward --codespace "${RESULT}" 80:${FORWARDED_PORT}
 
             gh codespace ports visibility --codespace "${RESULT}" 80:public
