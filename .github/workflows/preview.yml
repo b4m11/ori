@@ -69,6 +69,7 @@ jobs:
             --devcontainer-path "devcontainer.json" \
             --machine basicLinux32gb 2>&1)'; then
 
+            echo "$RESULT"
             CODESPACE_NAME="$(gh codespace list --repo "${OWNER}/${REPO}" --limit 100 --json repository,name,gitStatus --jq ".[] | select(((if .repository | type == \"object\" then .repository.fullName else .repository end) == \"${OWNER}/${REPO}\") and (.gitStatus | type == \"object\" and (.ref == \"refs/heads/${BRANCH}\" or .ref == \"${BRANCH}\"))) | .name")"
             
             # CODESPACE_NAME="$(gh codespace list --repo "${OWNER}/${REPO}" --branch "${BRANCH}" --limit 100 --json name,createdAt --jq 'sort_by(.createdAt) | reverse | .[0].name')"
