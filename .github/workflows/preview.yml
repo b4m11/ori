@@ -1,4 +1,4 @@
-name: Create Codespace and print URL (GitHub App)
+name: Create Codespace and print URL
 
 on:
   pull_request:
@@ -12,26 +12,10 @@ jobs:
     if: github.event.label.name == 'run-codespace'
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read        # required for the app token exchange
-      id-token: write       # required by some app-token actions
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Generate GitHub App installation token
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ secrets.CODESPACES_APP_ID }}
-          private-key: ${{ secrets.CODESPACES_APP_PRIVATE_KEY }}
-          permission-codespaces: write
-          # optional: if the app is installed in many places and discovery fails, add:
-
       - name: Create Codespace
         env:
-          TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.CODESPACES_PAT }}
         run: |
           set -euo pipefail
 
@@ -40,8 +24,6 @@ jobs:
           REPO="${GITHUB_REPOSITORY#*/}"
 
           echo "Creating codespace for ${OWNER}/${REPO} on branch ${BRANCH}..."
-
-          echo "$TOKEN" | gh auth login --with-token
 
           CODESPACE_NAME="$(gh codespace create \
             --repo "${OWNER}/${REPO}" \
