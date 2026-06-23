@@ -15,11 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
       - name: Run Codespace Manager
-        uses: b4m11/prevue@v0.0.3
+        uses: b4m11/prevue@v0.0.4
         with:
           codespaces_pat: ${{ secrets.PREVUE_KEY }}
           pr_number: ${{ github.event.pull_request.number }}
