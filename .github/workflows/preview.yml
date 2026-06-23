@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Run Codespace Manager
-        uses: b4m11/prevue@v1
+        uses: actions/prevue@v1
         with:
           codespaces_pat: ${{ secrets.PREVUE_KEY }}
           pr_number: ${{ github.event.pull_request.number }}
