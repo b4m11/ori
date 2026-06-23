@@ -28,33 +28,10 @@ jobs:
 
           echo "Creating codespace for ${OWNER}/${REPO} on branch ${BRANCH}..."
 
-          touch devcontainer.json
-          echo "
-          {
-            "name": "Python 3",
-            "image": "mcr.microsoft.com/devcontainers/python:0-3.11-bullseye",
-            "features": {
-              "ghcr.io/devcontainers-contrib/features/coverage-py:2": {}
-            },
-
-            "forwardPorts": [$FORWARDED_PORT],
-            "postCreateCommand": \""$RUN_CMD\"",
-            "customizations": {
-              "vscode": {
-                // Add the IDs of extensions you want installed when the container is created.
-                "extensions": [
-                  "streetsidesoftware.code-spell-checker"
-                ]
-              }
-            }
-          }
-          " >> devcontainer.json
-
-          cat devcontainer.json
           gh codespace create \
             --repo "${OWNER}/${REPO}" \
             --branch "${BRANCH}" \
-            --devcontainer-path "./devcontainer.json" \
+            --devcontainer-path ".devcontainer/devcontainer.json" \
             --machine basicLinux32gb
 
           if [ $? -eq 0 ]; then
