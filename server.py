@@ -13,7 +13,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             super().do_GET()
 
 def run(server_class=HTTPServer, handler_class=MyHandler):
-    port = int(os.environ.get('PORT', 3000))
+    port = int(os.environ.get('PORT', 8000))
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f"Starting server on port {port}...")
