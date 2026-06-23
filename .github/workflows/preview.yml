@@ -45,9 +45,7 @@ jobs:
             gh codespace ports visibility --codespace "${CODESPACE_NAME}" 80:public
 
             FORWARDED_URL="https://${CODESPACE_NAME}-${FORWARDED_PORT}.app.github.dev"
-
-            echo "codespace_name=${CODESPACE_NAME}" >> "$GITHUB_OUTPUT"
-            echo "forwarded_url=${FORWARDED_URL}" >> "$GITHUB_OUTPUT"
+            echo "Newest codespace name: ${CODESPACE_NAME}"
 
             cat <<< "
             ## ✅ Preview Codespace Ready
