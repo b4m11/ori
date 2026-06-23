@@ -5,12 +5,5 @@
     "ghcr.io/devcontainers-contrib/features/coverage-py:2": {}
   },
   "forwardPorts": ["80:8000"],
-  "postCreateCommand": "python3 server.py",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "streetsidesoftware.code-spell-checker"
-      ]
-    }
-  }
+  "postCreateCommand": "python3 server.py"
 }
