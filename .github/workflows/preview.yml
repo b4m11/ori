@@ -41,7 +41,7 @@ jobs:
             
             echo "Newest codespace name: ${CODESPACE_NAME}"
 
-            gh codespace ports visibility --codespace "${CODESPACE_NAME}" 80:public
+            # gh codespace ports visibility --codespace "${CODESPACE_NAME}" 80:public
 
             FORWARDED_URL="https://${CODESPACE_NAME}-${FORWARDED_PORT}.app.github.dev"
             echo "Newest codespace name: ${CODESPACE_NAME}"
